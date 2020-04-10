@@ -1,0 +1,21 @@
+@import '_variables.scss';
+
+// Bootstrap - Normalize + utilities
+@import 'bootstrap/scss/_root';
+@import 'bootstrap/scss/_reboot';
+@import 'bootstrap/scss/_utilities';
+
+// Bootstrap - Components
+@import 'bootstrap/scss/_buttons';
+@import 'bootstrap/scss/_grid';
+@import 'bootstrap/scss/_type';
+
+// BootstrapVue - Base
+@import 'bootstrap-vue/src/_variables';
+@import 'bootstrap-vue/src/_utilities';
+
+// BootstrapVue - Components
+// ...
+
+// Customize Bootstrap components
+@import './custom-bootstrap/_button';

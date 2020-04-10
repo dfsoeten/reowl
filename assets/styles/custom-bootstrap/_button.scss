@@ -1,0 +1,31 @@
+.btn {
+  &--icon {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+
+    > *:not(:last-child) {
+      margin-right: 5px;
+    }
+
+    > svg {
+      display: block;
+      height: 12px;
+      left: 0;
+      min-width: 12px;
+      position: relative;
+      top: -1px;
+      width: 12px;
+    }
+
+    &.btn-outline-light {
+      > svg path {
+        fill: #fff;
+      }
+
+      &:hover > svg path {
+        fill: inherit;
+      }
+    }
+  }
+}

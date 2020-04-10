@@ -1,0 +1,36 @@
+@import 'bootstrap/scss/_functions';
+@import 'bootstrap/scss/_variables';
+@import 'bootstrap/scss/_mixins';
+
+/**
+ * Override Bootstrap variables here
+ */
+
+// Colors
+$primary: #f89c2d;
+$gray-900: #1e1e1e;
+$link-color: #fff;
+$link-hover-color: #fff;
+
+// Fonts
+$font-family-base: 'Poppins', $font-family-base;
+
+// Grid
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1340px
+);
+
+// Buttons
+$btn-padding-x: $btn-padding-x * 2;
+
+// Miscellaneous
+$transition-duration: 0.2s;
+
+/**
+ * Custom variables
+ */
+
+// ...
