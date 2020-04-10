@@ -1,0 +1,39 @@
+@import '_variables.scss';
+@import '_fonts.scss';
+
+html,
+body {
+  background-color: $gray-900;
+}
+
+body {
+  color: #fff;
+}
+
+#__nuxt {
+  position: relative;
+  z-index: 1;
+}
+
+a:not(.btn) {
+  text-decoration: underline;
+}
+
+// Page transition - Fade in/out
+.page-enter-active,
+.page-leave-active {
+  transition: opacity $transition-duration;
+}
+
+.page-enter,
+.page-leave-active {
+  opacity: 0;
+}
+
+// Text selection
+::-moz-selection {
+  background: $primary;
+}
+::selection {
+  background: $primary;
+}
