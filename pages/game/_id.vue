@@ -16,7 +16,7 @@
                 variant="outline-light"
                 class="btn--icon"
               >
-                <ArrowRhinLeftIcon />
+                <ArrowThinLeftIcon />
                 <span>
                   {{ $t('miscellaneous.back') }}
                 </span>
@@ -68,7 +68,7 @@ import { IGame } from '~/types/game'
 import { Game } from '~/services/game'
 import GameFeed from '~/components/GameFeed/GameFeed.vue'
 import Player from '~/components/Player/Player.vue'
-import ArrowRhinLeftIcon from '~/assets/images/icons/arrow-thin-left.svg?inline'
+import ArrowThinLeftIcon from '~/assets/images/icons/arrow-thin-left.svg?inline'
 import MinimizeIcon from '~/assets/images/icons/minimize.svg?inline'
 
 @Component({
@@ -101,7 +101,7 @@ import MinimizeIcon from '~/assets/images/icons/minimize.svg?inline'
 
     return { game, latestGames }
   },
-  components: { ArrowRhinLeftIcon, GameFeed, MinimizeIcon, Player }
+  components: { ArrowThinLeftIcon, GameFeed, MinimizeIcon, Player }
 })
 export default class GamePage extends Vue {
   private sidebarVisible: boolean = true
