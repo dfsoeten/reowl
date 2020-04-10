@@ -86,6 +86,7 @@ export default class HomeIntro extends Vue {
       cursor: help;
       font-weight: inherit;
       display: inline-flex;
+      padding: 0;
       position: relative;
       text-decoration: underline;
 
