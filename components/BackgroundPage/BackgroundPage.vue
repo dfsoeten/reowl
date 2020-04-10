@@ -12,6 +12,7 @@
       <div class="background-page__video-wrapper">
         <video
           src="~/assets/videos/background-page.mp4"
+          muted
           autoplay
           loop
           playsinline
@@ -38,7 +39,7 @@ export default class BackgroundPage extends Vue {
 
   private mounted() {
     // Check if autoplay is allowed
-    canAutoPlay.video().then(({ result }) => {
+    canAutoPlay.video({ muted: true, inline: true }).then(({ result }) => {
       if (result && result === true) {
         // Determine if video must be shown
         this.setIfVideoMustBeShown()
