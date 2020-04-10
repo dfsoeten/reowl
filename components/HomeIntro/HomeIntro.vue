@@ -11,12 +11,21 @@
       </button>
       {{ descriptionPart2 }}
     </h1>
-    <div class="home-intro__spoiler-free-touch-device">
-      <div>
-        <HelpIcon />
+    <div class="home-intro__alerts">
+      <div
+        class="home-intro__alert home-intro__alert--white-background d-flex d-lg-none"
+      >
+        <div>
+          <WarningIcon />
+        </div>
+        <!-- eslint-disable-next-line vue/no-v-html -->
+        <div v-html="$t('homeIntro.optimizedForLaptop')"></div>
       </div>
-      <div>
-        {{ $t('homeIntro.spoilerFreeHelp') }}
+      <div class="home-intro__alert home-intro__alert--no-hover">
+        <div>
+          <HelpIcon />
+        </div>
+        <div>{{ $t('homeIntro.spoilerFreeHelp') }}</div>
       </div>
     </div>
   </div>
@@ -25,8 +34,9 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import HelpIcon from '~/assets/images/icons/help.svg?inline'
+import WarningIcon from '~/assets/images/icons/warning.svg?inline'
 
-@Component({ components: { HelpIcon } })
+@Component({ components: { HelpIcon, WarningIcon } })
 export default class HomeIntro extends Vue {
   private get descriptionPart1() {
     return (this.$t('homeIntro.description') as string).split(
@@ -134,24 +144,55 @@ export default class HomeIntro extends Vue {
     }
   }
 
-  &__spoiler-free-touch-device {
+  &__alerts {
     align-items: center;
     display: flex;
-    margin-bottom: 45px;
+    flex-direction: column;
 
-    @media (hover: hover) {
-      display: none;
+    > * {
+      margin-bottom: 10px;
+      max-width: 500px;
+
+      @include media-breakpoint-up(sm) {
+        margin-bottom: 20px;
+      }
     }
+  }
+
+  &__alert {
+    align-items: center;
+    border-radius: 12px;
+    display: flex;
+    padding: 15px;
 
     > div {
       &:nth-child(1) {
         margin-right: 15px;
 
         > svg {
+          height: 32px;
+          min-width: 32px;
+          width: 32px;
+
           path {
             fill: #fff;
           }
         }
+      }
+    }
+
+    &--white-background {
+      background-color: #fff;
+      color: $gray-900;
+
+      > div:nth-child(1) > svg path {
+        fill: $gray-900;
+      }
+    }
+
+    &--no-hover {
+      @media (hover: hover) {
+        display: none;
       }
     }
   }
