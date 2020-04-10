@@ -328,7 +328,6 @@ export default class GamePage extends Vue {
       align-items: center;
       background-color: transparent;
       border: 0;
-      border-radius: 500px;
       height: 56px;
       display: flex;
       flex-direction: column;
@@ -362,18 +361,19 @@ export default class GamePage extends Vue {
       }
     }
 
+    #{$self}__btn-play,
+    #{$self}__btn-pause {
+      button {
+        border: 3px solid #fff;
+        border-radius: 500px;
+      }
+    }
+
     #{$self}__btn-play {
       button > svg {
         left: 2px;
         position: relative;
         top: 0;
-      }
-    }
-
-    #{$self}__btn-play,
-    #{$self}__btn-pause {
-      button {
-        border: 3px solid #fff;
       }
     }
 
