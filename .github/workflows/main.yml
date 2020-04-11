@@ -15,7 +15,7 @@ jobs:
       - name: Use Node.js 12.x
         uses: actions/setup-node@v1
         with:
-          node-version: '12.x'
+          node-version: "12.x"
       - name: Build project
         run: |
           npm ci
@@ -32,11 +32,11 @@ jobs:
           export DIST_TARGET_DIR="$([ "$TARGET_ENV" == 'production' ] && echo ${{ secrets.DIST_TARGET_DIR_PROD }} || echo ${{ secrets.DIST_TARGET_DIR_PREPROD }})"
           echo "::set-env name=DIST_TARGET_DIR::$DIST_TARGET_DIR"
       - name: Deploy to FTP (${{ env.TARGET_ENV }})
-        uses: kevinpainchaud/simple-ftp-deploy-action@v1
+        uses: kevinpainchaud/simple-ftp-deploy-action@v1.0.1
         with:
           ftp_host: ${{ secrets.FTP_HOST }}
           ftp_username: ${{ secrets.FTP_USERNAME }}
           ftp_password: ${{ secrets.FTP_PASSWORD }}
           local_source_dir: dist
           dist_target_dir: ${{ env.DIST_TARGET_DIR }}
-          delete: 'true'
+          delete: "true"
