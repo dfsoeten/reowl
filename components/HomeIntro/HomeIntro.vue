@@ -164,7 +164,12 @@ export default class HomeIntro extends Vue {
     align-items: center;
     border-radius: 12px;
     display: flex;
+    font-size: 14px;
     padding: 15px;
+
+    @include media-breakpoint-up(md) {
+      font-size: 16px;
+    }
 
     > div {
       &:nth-child(1) {
