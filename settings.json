@@ -2,6 +2,7 @@
   "websiteUrl": "https://www.reowl.fr",
   "apiUrl": "https://api.reowl.fr",
   "matomo": { "matomoUrl": "//piwik.kpcd.me/", "siteId": 6 },
+  "googleAnalytics": { "id": "UA-163933218-1" },
   "owlFrYoutubeChannelId": "UCI45pR3yMi0uGE47ewT43Ow",
   "localStoragePrefix": "reowl"
 }

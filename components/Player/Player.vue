@@ -39,9 +39,9 @@
           </button>
         </div>
         <div>
-          <button @click="move(-5)">
+          <button @click="move(-15)">
             <ArrowRightIcon class="horizontal-mirror" />
-            <span>-5 sec</span>
+            <span>-15 sec</span>
           </button>
         </div>
         <div v-if="!isPlaying" class="player__btn-play">
@@ -55,9 +55,9 @@
           </button>
         </div>
         <div>
-          <button @click="move(5)">
+          <button @click="move(15)">
             <ArrowRightIcon />
-            <span>+5 sec</span>
+            <span>+15 sec</span>
           </button>
         </div>
         <div>

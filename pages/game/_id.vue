@@ -245,7 +245,7 @@ export default class GamePage extends Vue {
       }
 
       @include media-breakpoint-up(xl) {
-        height: 735px;
+        height: 723px;
       }
     }
   }

@@ -30,6 +30,10 @@
   "player": {
     "backToStart": "Retour début"
   },
+  "cookieConsent": {
+    "description": "Ce site utilise des cookies à des fins statistiques (comptabilisation des visites).",
+    "allowCookies": "Autoriser les cookies"
+  },
   "error": {
     "pageNotFound": "Page non trouvée",
     "errorOccurred": "Une erreur s'est produite"
@@ -40,6 +44,7 @@
     "logo": "Logo",
     "developpedWithLoveBy": "Développé avec ❤ par",
     "hide": "Masquer",
-    "expand": "Développer"
+    "expand": "Développer",
+    "readMore": "En savoir plus"
   }
 }

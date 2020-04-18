@@ -12,6 +12,17 @@ $gray-900: #1e1e1e;
 $link-color: #fff;
 $link-hover-color: #fff;
 
+$theme-colors: (
+  'primary': $primary,
+  'secondary': $secondary,
+  'success': $success,
+  'info': $info,
+  'warning': $warning,
+  'danger': $danger,
+  'light': $light,
+  'dark': $dark
+);
+
 // Fonts
 $font-family-base: 'Poppins', $font-family-base;
 
@@ -25,6 +36,9 @@ $container-max-widths: (
 
 // Buttons
 $btn-padding-x: $btn-padding-x * 2;
+$btn-padding-x-sm: $btn-padding-x-sm * 2;
+$btn-padding-y-sm: $btn-padding-y-sm * 1.5;
+$btn-line-height-sm: 1.25em;
 
 // Miscellaneous
 $transition-duration: 0.2s;
