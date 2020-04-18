@@ -12,6 +12,17 @@ $gray-900: #1e1e1e;
 $link-color: #fff;
 $link-hover-color: #fff;
 
+$theme-colors: (
+  'primary': $primary,
+  'secondary': $secondary,
+  'success': $success,
+  'info': $info,
+  'warning': $warning,
+  'danger': $danger,
+  'light': $light,
+  'dark': $dark
+);
+
 // Fonts
 $font-family-base: 'Poppins', $font-family-base;
 
