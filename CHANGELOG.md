@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Fixed
 - Increase the favicon size
+- On the player, "-/+5 sec" become "-/+15 sec"
 
 ## [1.0.2] - 2020-04-12
 ### Fixed
