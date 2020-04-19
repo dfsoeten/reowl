@@ -138,6 +138,10 @@ export default class GamePage extends Vue {
     youtube: any
   }
 
+  public async getPlayerState() {
+    return await this.player.getPlayerState()
+  }
+
   private playerVars: YT.PlayerVars = {
     controls: 0,
     rel: 0
