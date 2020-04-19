@@ -135,7 +135,7 @@ export default class GameCard extends Vue {
     color: #fff;
     font-size: 15px;
     font-weight: 700;
-    margin-top: 5px;
+    margin-top: 8px;
 
     @include media-breakpoint-up(md) {
       margin-top: 10px;

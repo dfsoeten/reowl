@@ -122,9 +122,9 @@ export default class GamePage extends Vue {
   }
 
   private mounted(): void {
-    // Regularly (every 20 seconds) send an event to Google Analytics
+    // Regularly (every 40 seconds) send an event to Google Analytics
     // to tell that the user is always active when he watching a video
-    this.playTrackingInterval = window.setInterval(this.trackPlaying, 20000)
+    this.playTrackingInterval = window.setInterval(this.trackPlaying, 40000)
   }
 
   private destroyed() {
