@@ -43,7 +43,7 @@
                 {{ game.team1.name }} {{ $t('game.vs') }} {{ game.team2.name }}
               </h1>
             </div>
-            <Player :game="game" class="game-page__player" />
+            <Player ref="player" :game="game" class="game-page__player" />
           </div>
         </b-col>
         <b-col
@@ -82,9 +82,14 @@ import MinimizeIcon from '~/assets/images/icons/minimize.svg?inline'
     const team2Name: string = this.game?.team2.name
 
     return {
-      title: `${this.$t(
-        'global.websiteName'
-      ) as string} - ${team1Name} ${this.$t('game.vs')} ${team2Name}`
+      title:
+        (this.$t('global.websiteName') as string) +
+        ' - ' +
+        team1Name +
+        ' ' +
+        this.$t('game.vs') +
+        ' ' +
+        team2Name
     }
   },
   async asyncData(context) {
@@ -106,9 +111,39 @@ import MinimizeIcon from '~/assets/images/icons/minimize.svg?inline'
 export default class GamePage extends Vue {
   private sidebarVisible: boolean = true
   private sidebarVisibleLocalStorageKey: string = `${settings.localStoragePrefix}-game-page-sidebar-visible`
+  private playTrackingInterval!: number
+
+  public $refs!: {
+    player: any
+  }
 
   private created(): void {
     this.restoreSidebarVisibility()
+  }
+
+  private mounted(): void {
+    // Regularly (every 40 seconds) send an event to Google Analytics
+    // to tell that the user is always active when he watching a video
+    this.playTrackingInterval = window.setInterval(this.trackPlaying, 40000)
+  }
+
+  private destroyed() {
+    window.clearInterval(this.playTrackingInterval)
+  }
+
+  /**
+   * Send an event to Google Analytics
+   * if the player is currently playing video
+   */
+  private async trackPlaying(): Promise<void> {
+    if (this.$refs.player) {
+      const playerState: YT.PlayerState = await this.$refs.player.getPlayerState()
+
+      // eslint-disable-next-line no-undef
+      if (playerState === YT.PlayerState.PLAYING) {
+        ;(this as any).$ga.event('player', 'playing', 'player-playing', true)
+      }
+    }
   }
 
   private minimizeSidebar(): void {

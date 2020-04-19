@@ -10,7 +10,7 @@
         @ready="loading = false"
         @playing="isPlaying = true"
         @paused="isPlaying = false"
-      ></youtube>
+      />
       <div class="player__timer">
         <span>
           {{ currentTimeFormatted }}
@@ -136,6 +136,10 @@ export default class GamePage extends Vue {
   public $refs!: {
     volumeSlider: any
     youtube: any
+  }
+
+  public async getPlayerState() {
+    return await this.player.getPlayerState()
   }
 
   private playerVars: YT.PlayerVars = {

@@ -98,7 +98,7 @@ export default {
     extend(config) {
       // HTML loader
       config.module.rules.push({
-        test: /\.html$/i,
+        test: /\.html$/,
         loader: 'html-loader'
       })
     }

@@ -10,13 +10,9 @@
   >
     <template v-if="showVideo">
       <div class="background-page__video-wrapper">
-        <video
-          src="~/assets/videos/background-page.mp4"
-          muted
-          autoplay
-          loop
-          playsinline
-        />
+        <video muted autoplay loop playsinline>
+          <source :src="videoSrc" type="video/mp4" />
+        </video>
       </div>
     </template>
     <template v-else>
@@ -29,6 +25,7 @@
 import { Vue, Component, Watch } from 'vue-property-decorator'
 import { subscribe, Subscription } from 'subscribe-ui-event'
 import canAutoPlay from 'can-autoplay'
+import backgroundPageVideo from '~/assets/videos/background-page.mp4'
 
 @Component
 export default class BackgroundPage extends Vue {
@@ -36,6 +33,7 @@ export default class BackgroundPage extends Vue {
   private showVideo: boolean = false
   private darkMode: boolean = false
   private resizeSubscription!: Subscription
+  private videoSrc: string = backgroundPageVideo
 
   private mounted() {
     // Check if autoplay is allowed

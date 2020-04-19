@@ -6,12 +6,23 @@ module.exports = {
   },
   extends: [
     '@nuxtjs/eslint-config-typescript',
-    'prettier',
-    'prettier/vue',
-    'plugin:prettier/recommended',
-    'plugin:nuxt/recommended'
+    'eslint:recommended',
+    'plugin:vue/recommended',
+    'plugin:nuxt/recommended',
+    'plugin:prettier/recommended'
   ],
   plugins: ['prettier'],
   // Custom rules here
-  rules: {}
+  rules: {
+    'vue/html-self-closing': [
+      'error',
+      {
+        html: {
+          void: 'always',
+          normal: 'never',
+          component: 'any'
+        }
+      }
+    ]
+  }
 }

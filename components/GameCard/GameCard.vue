@@ -20,7 +20,9 @@
       >
         <img v-if="gameData.team2.logo" :src="gameData.team2.logo" />
       </div>
-      <div class="game-card__vs">{{ $t('game.vs') }}</div>
+      <div class="game-card__vs">
+        {{ $t('game.vs') }}
+      </div>
     </nuxt-link>
 
     <div class="game-card__footer">
@@ -133,7 +135,7 @@ export default class GameCard extends Vue {
     color: #fff;
     font-size: 15px;
     font-weight: 700;
-    margin-top: 5px;
+    margin-top: 8px;
 
     @include media-breakpoint-up(md) {
       margin-top: 10px;
