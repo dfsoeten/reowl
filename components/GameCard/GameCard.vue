@@ -20,7 +20,9 @@
       >
         <img v-if="gameData.team2.logo" :src="gameData.team2.logo" />
       </div>
-      <div class="game-card__vs">{{ $t('game.vs') }}</div>
+      <div class="game-card__vs">
+        {{ $t('game.vs') }}
+      </div>
     </nuxt-link>
 
     <div class="game-card__footer">

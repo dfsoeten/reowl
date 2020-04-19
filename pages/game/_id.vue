@@ -82,9 +82,14 @@ import MinimizeIcon from '~/assets/images/icons/minimize.svg?inline'
     const team2Name: string = this.game?.team2.name
 
     return {
-      title: `${this.$t(
-        'global.websiteName'
-      ) as string} - ${team1Name} ${this.$t('game.vs')} ${team2Name}`
+      title:
+        (this.$t('global.websiteName') as string) +
+        ' - ' +
+        team1Name +
+        ' ' +
+        this.$t('game.vs') +
+        ' ' +
+        team2Name
     }
   },
   async asyncData(context) {

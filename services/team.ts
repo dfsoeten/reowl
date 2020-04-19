@@ -19,6 +19,7 @@ export class Team {
     // Get the logo from assets
     try {
       logo = require(`~/assets/images/logos/teams/${team.slug}.svg`)
+      // eslint-disable-next-line no-empty
     } catch (error) {}
 
     if (logo) {

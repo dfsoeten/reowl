@@ -20,9 +20,9 @@ import { Vue, Component } from 'vue-property-decorator'
 @Component({
   head() {
     return {
-      title: `${this.$t('global.websiteName') as string} - ${this.$t(
-        'links.legalNotices'
-      ) as string}`
+      title: ((this.$t('global.websiteName') as string) +
+        ' - ' +
+        this.$t('links.legalNotices')) as string
     }
   }
 })
@@ -33,6 +33,7 @@ export default class LegalNoticesPage extends Vue {
     // Load page content from locales
     try {
       this.pageContent = require(`~/locales/html/${this.$i18n.locale}/legal-notices.html`)
+      // eslint-disable-next-line no-empty
     } catch (error) {}
   }
 }

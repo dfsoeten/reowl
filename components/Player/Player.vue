@@ -10,7 +10,7 @@
         @ready="loading = false"
         @playing="isPlaying = true"
         @paused="isPlaying = false"
-      ></youtube>
+      />
       <div class="player__timer">
         <span>
           {{ currentTimeFormatted }}
