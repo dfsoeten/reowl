@@ -1,5 +1,10 @@
 <template>
-  <div class="player" :class="{ loading: loading }">
+  <div
+    ref="player"
+    class="player"
+    :class="{ loading: loading, fullscreen: fullscreen, idle: idle }"
+  >
+    <div v-if="fullscreen" class="player__overlay" @click="toggleVideo"></div>
     <div class="player__video">
       <div v-show="loading" class="placeholder-player"></div>
       <youtube
@@ -17,6 +22,7 @@
         </span>
       </div>
     </div>
+
     <div class="player__actions">
       <div>
         <button class="player__btn-back-start" @click="backToStart">
@@ -100,6 +106,8 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 import canAutoPlay from 'can-autoplay'
 import VueSlider from 'vue-slider-component'
 import 'vue-slider-component/theme/default.css'
+import screenfull from 'screenfull'
+import IdleJs from 'idle-js'
 import { IGame } from '~/types/game'
 import PlayIcon from '~/assets/images/icons/play.svg?inline'
 import PauseIcon from '~/assets/images/icons/pause.svg?inline'
@@ -128,12 +136,17 @@ export default class GamePage extends Vue {
   private game!: IGame
 
   private loading: boolean = true
+  private fullscreen: boolean = false
+  private idle: boolean = false
+  private idleTime: number = 2000
+  private idleTracking!: any
   private isPlaying: boolean = false
   private volume: number = 100
   private currentTime: number = 0
   private currentTimeInterval!: number
 
   public $refs!: {
+    player: any
     volumeSlider: any
     youtube: any
   }
@@ -172,10 +185,48 @@ export default class GamePage extends Vue {
         this.playVideo()
       }
     })
+
+    // Store fullscreen state into a data
+    if (screenfull.isEnabled) {
+      screenfull.on('change', () => {
+        this.fullscreen = (screenfull as any).isFullscreen
+      })
+    }
+
+    // Detect user's activity
+    this.idleTracking = new IdleJs({
+      idle: this.idleTime,
+      onIdle: () => (this.idle = true),
+      onActive: () => (this.idle = false)
+    })
+
+    this.idleTracking.start()
+
+    // Manage player actions on fullscreen
+    document.addEventListener('keyup', this.toggleVideoOnKeyupOnFullscreen)
+  }
+
+  /**
+   * Play/pause on space keyup on fullscreen
+   */
+  private toggleVideoOnKeyupOnFullscreen(event: any): void {
+    if (
+      screenfull.isEnabled &&
+      screenfull.isFullscreen &&
+      event.keyCode === 32 &&
+      // Check no button is focus
+      this.$refs.player &&
+      this.$refs.player.querySelectorAll('.player__actions button:focus')
+        .length === 0
+    ) {
+      this.toggleVideo()
+    }
   }
 
   private destroyed() {
     window.clearInterval(this.currentTimeInterval)
+    this.idleTracking.stop()
+    document.removeEventListener('keyup', this.toggleVideoOnKeyupOnFullscreen)
   }
 
   private playVideo() {
@@ -184,6 +235,17 @@ export default class GamePage extends Vue {
 
   private pauseVideo() {
     this.player.pauseVideo()
+  }
+
+  private async toggleVideo() {
+    const playerState: YT.PlayerState = await this.getPlayerState()
+
+    // eslint-disable-next-line no-undef
+    if (playerState === YT.PlayerState.PLAYING) {
+      this.player.pauseVideo()
+    } else {
+      this.player.playVideo()
+    }
   }
 
   private backToStart() {
@@ -204,10 +266,25 @@ export default class GamePage extends Vue {
     this.$refs.volumeSlider.setValue(this.volume > 0 ? 0 : 100)
   }
 
-  private async toggleFullscreen(): Promise<void> {
-    const iframe = await this.player.getIframe()
+  private toggleFullscreen(): void {
+    if (screenfull.isEnabled) {
+      if (!this.fullscreen) {
+        screenfull.request(this.$refs.player)
+        // this.idle = true // Prevent actions to be shown
+        this.blurActionsButtons()
+      } else {
+        screenfull.exit()
+      }
+    }
+  }
 
-    iframe.requestFullscreen()
+  /**
+   * Blur all actions buttons
+   */
+  private blurActionsButtons(): void {
+    this.$refs.player
+      .querySelectorAll('.player__actions button')
+      .forEach((button: any) => button.blur())
   }
 }
 </script>
@@ -399,8 +476,69 @@ export default class GamePage extends Vue {
 
       .vue-slider {
         flex: 1;
-        margin-left: 15px;
         min-width: 50px;
+      }
+    }
+  }
+
+  &.fullscreen {
+    #{$self}__overlay {
+      background-color: $gray-900;
+      background: linear-gradient(
+        0deg,
+        rgba($gray-900, 1) 0%,
+        rgba($gray-900, 0.5) 60%
+      );
+      content: '';
+      display: block;
+      height: 100%;
+      left: 0;
+      opacity: 0.9;
+      position: absolute;
+      top: 0;
+      transition: opacity $transition-duration;
+      width: 100%;
+      z-index: 2;
+    }
+
+    #{$self}__actions {
+      background-color: #fff;
+      bottom: 100px;
+      border-radius: 32px;
+      box-shadow: 0 0 20px 0 rgba(#000, 0.6);
+      left: 50%;
+      max-width: 1000px;
+      padding: 15px 25px;
+      position: absolute;
+      transform: translateX(-50%);
+      width: calc(100% - 30px);
+      z-index: 3;
+
+      button {
+        > svg path {
+          fill: $gray-900;
+        }
+
+        > span {
+          color: $gray-900;
+        }
+      }
+
+      #{$self}__btn-play,
+      #{$self}__btn-pause {
+        button {
+          border-color: $gray-900;
+        }
+      }
+    }
+
+    &.idle {
+      #{$self}__overlay {
+        opacity: 0;
+      }
+
+      #{$self}__actions {
+        display: none;
       }
     }
   }
@@ -420,6 +558,10 @@ export default class GamePage extends Vue {
     display: block;
     height: 480px;
     width: 100%;
+  }
+
+  .vue-slider {
+    margin-right: 7px;
   }
 
   .vue-slider-process {
@@ -442,6 +584,22 @@ export default class GamePage extends Vue {
 
   &.loading iframe.youtube-player {
     height: 0;
+  }
+
+  &.fullscreen {
+    iframe.youtube-player {
+      height: 100%;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 100%;
+    }
+
+    .vue-slider-dot-tooltip-inner {
+      background-color: $gray-900;
+      border-color: $gray-900;
+      color: #fff;
+    }
   }
 }
 </style>
