@@ -4,7 +4,7 @@
   "description": "Watch Overwatch League replays spoiler-free, in the 🇫🇷 language",
   "author": "Kévin Painchaud",
   "scripts": {
-    "dev": "nuxt",
+    "dev": "nuxt --hostname 0.0.0.0",
     "build": "nuxt build",
     "build:analyze": "nuxt build --analyze",
     "start": "nuxt start",
