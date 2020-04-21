@@ -2,10 +2,19 @@
   <div
     ref="player"
     class="player"
-    :class="{ loading: loading, fullscreen: fullscreen, idle: idle }"
+    :class="{
+      loading: loading,
+      fullscreen: fullscreen,
+      'user-is-active': userIsActive
+    }"
   >
-    <div v-if="fullscreen" class="player__overlay" @click="toggleVideo"></div>
-    <div class="player__video">
+    <div
+      v-if="fullscreen"
+      class="player__overlay"
+      @mousemove="handleOverlayMousemove"
+      @click="handleOverlayClick"
+    ></div>
+    <div class="player__video" @click="handleOverlayClick">
       <div v-show="loading" class="placeholder-player"></div>
       <youtube
         ref="youtube"
@@ -23,7 +32,7 @@
       </div>
     </div>
 
-    <div class="player__actions">
+    <div class="player__actions" @mouseover="handleActionsMouseover">
       <div>
         <button class="player__btn-back-start" @click="backToStart">
           <span>
@@ -91,7 +100,7 @@
             @change="handleVolumeChange"
           />
         </div>
-        <button @click="toggleFullscreen">
+        <button v-if="screenfullEnabled" @click="toggleFullscreen">
           <FullscreenIcon />
         </button>
       </div>
@@ -107,7 +116,6 @@ import canAutoPlay from 'can-autoplay'
 import VueSlider from 'vue-slider-component'
 import 'vue-slider-component/theme/default.css'
 import screenfull from 'screenfull'
-import IdleJs from 'idle-js'
 import { IGame } from '~/types/game'
 import PlayIcon from '~/assets/images/icons/play.svg?inline'
 import PauseIcon from '~/assets/images/icons/pause.svg?inline'
@@ -137,9 +145,10 @@ export default class GamePage extends Vue {
 
   private loading: boolean = true
   private fullscreen: boolean = false
-  private idle: boolean = false
-  private idleTime: number = 2000
-  private idleTracking!: any
+  private userIsActive: boolean = false
+  private overlayMousemoveTimeout!: number
+  private touchscreen: boolean = 'ontouchstart' in document.documentElement
+  private screenfullEnabled: boolean = screenfull.isEnabled
   private isPlaying: boolean = false
   private volume: number = 100
   private currentTime: number = 0
@@ -157,7 +166,8 @@ export default class GamePage extends Vue {
 
   private playerVars: YT.PlayerVars = {
     controls: 0,
-    rel: 0
+    rel: 0,
+    playsinline: 1
   }
 
   private get player(): YT.Player {
@@ -187,20 +197,11 @@ export default class GamePage extends Vue {
     })
 
     // Store fullscreen state into a data
-    if (screenfull.isEnabled) {
+    if (this.screenfullEnabled) {
       screenfull.on('change', () => {
         this.fullscreen = (screenfull as any).isFullscreen
       })
     }
-
-    // Detect user's activity
-    this.idleTracking = new IdleJs({
-      idle: this.idleTime,
-      onIdle: () => (this.idle = true),
-      onActive: () => (this.idle = false)
-    })
-
-    this.idleTracking.start()
 
     // Manage player actions on fullscreen
     document.addEventListener('keyup', this.toggleVideoOnKeyupOnFullscreen)
@@ -211,8 +212,8 @@ export default class GamePage extends Vue {
    */
   private toggleVideoOnKeyupOnFullscreen(event: any): void {
     if (
-      screenfull.isEnabled &&
-      screenfull.isFullscreen &&
+      this.screenfullEnabled &&
+      (screenfull as any).isFullscreen &&
       event.keyCode === 32 &&
       // Check no button is focus
       this.$refs.player &&
@@ -225,7 +226,6 @@ export default class GamePage extends Vue {
 
   private destroyed() {
     window.clearInterval(this.currentTimeInterval)
-    this.idleTracking.stop()
     document.removeEventListener('keyup', this.toggleVideoOnKeyupOnFullscreen)
   }
 
@@ -270,7 +270,7 @@ export default class GamePage extends Vue {
     if (screenfull.isEnabled) {
       if (!this.fullscreen) {
         screenfull.request(this.$refs.player)
-        // this.idle = true // Prevent actions to be shown
+        this.userIsActive = false // Prevent actions to be shown
         this.blurActionsButtons()
       } else {
         screenfull.exit()
@@ -285,6 +285,39 @@ export default class GamePage extends Vue {
     this.$refs.player
       .querySelectorAll('.player__actions button')
       .forEach((button: any) => button.blur())
+  }
+
+  private handleOverlayMousemove(): void {
+    if (!this.touchscreen) {
+      if (this.overlayMousemoveTimeout) {
+        clearTimeout(this.overlayMousemoveTimeout)
+      }
+
+      this.userIsActive = true
+
+      this.overlayMousemoveTimeout = window.setTimeout(
+        () => (this.userIsActive = false),
+        1000
+      )
+    }
+  }
+
+  private handleOverlayClick(): void {
+    if (this.touchscreen) {
+      this.userIsActive = !this.userIsActive
+    } else {
+      this.toggleVideo()
+    }
+  }
+
+  private handleActionsMouseover(): void {
+    if (!this.touchscreen) {
+      if (this.overlayMousemoveTimeout) {
+        clearTimeout(this.overlayMousemoveTimeout)
+      }
+
+      this.userIsActive = true
+    }
   }
 }
 </script>
@@ -375,7 +408,7 @@ export default class GamePage extends Vue {
         }
 
         &:nth-child(2) {
-          flex: 1;
+          flex: 100%;
         }
       }
 
@@ -493,7 +526,7 @@ export default class GamePage extends Vue {
       display: block;
       height: 100%;
       left: 0;
-      opacity: 0.9;
+      opacity: 0;
       position: absolute;
       top: 0;
       transition: opacity $transition-duration;
@@ -503,16 +536,34 @@ export default class GamePage extends Vue {
 
     #{$self}__actions {
       background-color: #fff;
-      bottom: 100px;
+      bottom: 35px;
       border-radius: 32px;
       box-shadow: 0 0 20px 0 rgba(#000, 0.6);
+      display: none;
       left: 50%;
-      max-width: 1000px;
-      padding: 15px 25px;
+      max-width: 325px;
+      padding: 15px;
       position: absolute;
       transform: translateX(-50%);
       width: calc(100% - 30px);
       z-index: 3;
+
+      @include media-breakpoint-up(sm) {
+        max-width: 1000px;
+        padding: 15px 25px;
+      }
+
+      @include media-breakpoint-up(lg) {
+        bottom: 100px;
+      }
+
+      > div {
+        @include media-breakpoint-down(md) {
+          &:nth-child(2) {
+            border-bottom-color: $gray-900;
+          }
+        }
+      }
 
       button {
         > svg path {
@@ -532,13 +583,13 @@ export default class GamePage extends Vue {
       }
     }
 
-    &.idle {
+    &.user-is-active {
       #{$self}__overlay {
-        opacity: 0;
+        opacity: 0.8;
       }
 
       #{$self}__actions {
-        display: none;
+        display: flex;
       }
     }
   }
