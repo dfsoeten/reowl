@@ -18,7 +18,6 @@
     "bootstrap-vue": "^2.11.0",
     "can-autoplay": "^3.0.0",
     "date-fns": "^2.12.0",
-    "idle-js": "^1.2.0",
     "nuxt": "^2.12.2",
     "nuxt-matomo": "^1.2.3",
     "screenfull": "^5.0.2",
