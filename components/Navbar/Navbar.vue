@@ -39,10 +39,6 @@ export default class Navbar extends Vue {}
     padding: 25px 0;
   }
 
-  @include media-breakpoint-up(xl) {
-    padding: 40px 0;
-  }
-
   &__logo {
     transition: transform $transition-duration;
     width: 100px;
