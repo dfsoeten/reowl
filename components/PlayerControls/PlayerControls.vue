@@ -1,8 +1,8 @@
 <template>
-  <div ref="playerActions" class="player-actions">
+  <div ref="playerControls" class="player-controls">
     <div>
       <button
-        class="player-actions__btn-back-start"
+        class="player-controls__btn-back-start"
         @click="$emit('backToStart')"
       >
         <span>
@@ -29,12 +29,12 @@
           <span>-15 sec</span>
         </button>
       </div>
-      <div v-if="!isPlaying" class="player-actions__btn-play">
+      <div v-if="!isPlaying" class="player-controls__btn-play">
         <button @click="$emit('playing')">
           <PlayIcon />
         </button>
       </div>
-      <div v-else class="player-actions__btn-pause">
+      <div v-else class="player-controls__btn-pause">
         <button @click="$emit('paused')">
           <PauseIcon />
         </button>
@@ -59,9 +59,9 @@
       </div>
     </div>
     <div>
-      <div class="player-actions__volume">
+      <div class="player-controls__volume">
         <button @click="handleVolumeMuteToggling">
-          <VolumeIconMute v-if="volume === 0" />
+          <VolumeIconMute v-if="volumeSliderValue === 0" />
           <VolumeIcon v-else />
         </button>
         <vue-slider
@@ -104,7 +104,7 @@ import FullscreenIcon from '~/assets/images/icons/fullscreen.svg?inline'
     FullscreenIcon
   }
 })
-export default class PlayerActions extends Vue {
+export default class PlayerControls extends Vue {
   @Prop({ type: Boolean, required: true })
   private isPlaying: boolean = false
 
@@ -112,18 +112,12 @@ export default class PlayerActions extends Vue {
   private volume: number = 100
 
   public $refs!: {
-    playerActions: any
+    playerControls: any
     volumeSlider: any
   }
 
   private volumeSliderValue: number = this.volume
   private fullscreenEnabled: boolean = screenfull.isEnabled
-
-  public blurButtons(): void {
-    this.$refs.playerActions
-      .querySelectorAll('button')
-      .forEach((button: any) => button.blur())
-  }
 
   private handleVolumeMuteToggling(): void {
     this.$refs.volumeSlider.setValue(this.volumeSliderValue > 0 ? 0 : 100)
@@ -134,7 +128,7 @@ export default class PlayerActions extends Vue {
 <style lang="scss" scoped>
 @import '~/assets/styles/_variables.scss';
 
-.player-actions {
+.player-controls {
   $self: &;
 
   display: flex;
@@ -259,15 +253,15 @@ export default class PlayerActions extends Vue {
     }
   }
 
-  #{$self}__btn-play,
-  #{$self}__btn-pause {
+  &__btn-play,
+  &__btn-pause {
     button {
       border: 3px solid #fff;
       border-radius: 500px;
     }
   }
 
-  #{$self}__btn-play {
+  &__btn-play {
     button > svg {
       left: 2px;
       position: relative;
@@ -275,7 +269,7 @@ export default class PlayerActions extends Vue {
     }
   }
 
-  #{$self}__volume {
+  &__volume {
     align-items: center;
     display: flex;
 
@@ -297,7 +291,7 @@ export default class PlayerActions extends Vue {
     }
   }
 
-  &.white-bg {
+  &.fullscreen-mode {
     background-color: #fff;
     border-radius: 32px;
     box-shadow: 0 0 20px 0 rgba(#000, 0.6);
@@ -338,7 +332,7 @@ export default class PlayerActions extends Vue {
 <style lang="scss">
 @import '~/assets/styles/_variables.scss';
 
-.player-actions {
+.player-controls {
   .vue-slider {
     margin-right: 7px;
   }
@@ -361,7 +355,7 @@ export default class PlayerActions extends Vue {
     top: calc(100% - 1px);
   }
 
-  &.white-bg {
+  &.fullscreen-mode {
     .vue-slider-dot-tooltip-inner {
       background-color: $gray-900;
       border-color: $gray-900;

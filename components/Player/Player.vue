@@ -14,7 +14,7 @@
       @mousemove="handleOverlayMousemove"
       @click="handleOverlayClick"
     ></div>
-    <div class="player__video-wrapper" @click="handleOverlayClick">
+    <div class="player__video-wrapper">
       <div v-show="loading" class="placeholder-player"></div>
       <youtube
         ref="youtube"
@@ -31,13 +31,13 @@
         </span>
       </div>
     </div>
-    <PlayerActions
+    <PlayerControls
       v-show="!fullscreen || userIsActive"
-      ref="playerActions"
+      ref="playerControls"
       :is-playing="isPlaying"
       :volume="volume"
       :class="{
-        'white-bg': fullscreen
+        'fullscreen-mode': fullscreen
       }"
       @playing="playVideo"
       @paused="pauseVideo"
@@ -45,7 +45,7 @@
       @backToStart="backToStart"
       @volumeChanged="handleVolumeChange"
       @fullscreenToggled="toggleFullscreen"
-      @mouseover.native="handlePlayerActionsMouseover"
+      @mouseover.native="handlePlayerControlsMouseover"
     />
   </div>
 </template>
@@ -56,12 +56,13 @@
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import canAutoPlay from 'can-autoplay'
 import screenfull from 'screenfull'
+import { isTouchScreen } from '~/helpers/touchscreen'
 import { IGame } from '~/types/game'
-import PlayerActions from '~/components/PlayerActions/PlayerActions.vue'
+import PlayerControls from '~/components/PlayerControls/PlayerControls.vue'
 
 @Component({
   components: {
-    PlayerActions
+    PlayerControls
   }
 })
 export default class GamePage extends Vue {
@@ -70,24 +71,22 @@ export default class GamePage extends Vue {
 
   public $refs!: {
     player: any
-    playerActions: any
+    playerControls: any
     youtube: any
   }
 
   private loading: boolean = true
   private fullscreen: boolean = false
   private userIsActive: boolean = false
-  private overlayMousemoveTimeout!: number
-  private touchscreen: boolean = 'ontouchstart' in document.documentElement
-  private fullscreenEnabled: boolean = screenfull.isEnabled
+  private userIsActiveTimeout!: number
   private isPlaying: boolean = false
   private volume: number = 100
   private currentTime: number = 0
   private currentTimeInterval!: number
   private playerVars: YT.PlayerVars = {
     controls: 0,
-    rel: 0,
-    playsinline: 1
+    playsinline: 1,
+    rel: 0
   }
 
   public async getPlayerState() {
@@ -116,41 +115,22 @@ export default class GamePage extends Vue {
     canAutoPlay.video().then(({ result }) => {
       if (result && result === true) {
         // Autoplay
-        this.playVideo()
+        // this.playVideo()
       }
     })
 
     // Store fullscreen state into data
-    if (this.fullscreenEnabled) {
-      ;(screenfull as any).on('change', this.handleScreenfullChange)
+    if (screenfull.isEnabled) {
+      screenfull.on('change', this.handleFullscreenChange)
     }
 
     // Spacebar keyup
     document.addEventListener('keyup', this.handleSpacebarKeyup)
   }
 
-  private handleScreenfullChange(): void {
-    this.fullscreen = (screenfull as any).isFullscreen
-  }
-
-  /**
-   * Play/pause on spacebar keyup on fullscreen
-   */
-  private handleSpacebarKeyup(event: any): void {
-    if (
-      this.fullscreenEnabled &&
-      (screenfull as any).isFullscreen &&
-      event.keyCode === 32 &&
-      // Check no player action button is focus
-      this.$refs.playerActions.querySelectorAll('button:focus').length === 0
-    ) {
-      this.toggleVideo()
-    }
-  }
-
   private destroyed() {
     window.clearInterval(this.currentTimeInterval)
-    ;(screenfull as any).off('change', this.handleScreenfullChange)
+    ;(screenfull as any).off('change', this.handleFullscreenChange)
     document.removeEventListener('keyup', this.handleSpacebarKeyup)
   }
 
@@ -159,9 +139,9 @@ export default class GamePage extends Vue {
 
     // eslint-disable-next-line no-undef
     if (playerState === YT.PlayerState.PLAYING) {
-      this.youtubePlayer.pauseVideo()
+      this.pauseVideo()
     } else {
-      this.youtubePlayer.playVideo()
+      this.playVideo()
     }
   }
 
@@ -187,49 +167,85 @@ export default class GamePage extends Vue {
     this.youtubePlayer.setVolume(volume)
   }
 
+  private handleFullscreenChange(): void {
+    this.fullscreen = (screenfull as any).isFullscreen
+  }
+
+  /**
+   * Toggle fullscreen mode
+   */
   private toggleFullscreen(): void {
-    if (screenfull.isEnabled) {
-      if (!this.fullscreen) {
-        screenfull.request(this.$refs.player)
-        this.userIsActive = false // Prevent player actions to be shown
-        this.$refs.playerActions.blurButtons() // Blur all player action buttons
-      } else {
-        screenfull.exit()
-      }
+    // Enter fullscreen
+    if (!this.fullscreen) {
+      ;(screenfull as any).request(this.$refs.player)
+
+      // Prevent player controls to be shown
+      // on enter to the fullscreen mode
+      this.userIsActive = false
+    } else {
+      // Exit fullscreen
+      ;(screenfull as any).exit()
     }
   }
 
+  /**
+   * Play/pause on spacebar keyup when fullscreen
+   */
+  private handleSpacebarKeyup(event: any): void {
+    if (
+      screenfull.isEnabled &&
+      screenfull.isFullscreen &&
+      event.keyCode === 32 &&
+      // Check no player control button is focus
+      this.$refs.playerControls.$el.querySelectorAll('button:focus').length ===
+        0
+    ) {
+      this.toggleVideo()
+    }
+  }
+
+  /**
+   * Mouseover the overlay
+   */
   private handleOverlayMousemove(): void {
-    if (!this.touchscreen) {
-      if (this.overlayMousemoveTimeout) {
-        clearTimeout(this.overlayMousemoveTimeout)
+    if (!isTouchScreen()) {
+      if (this.userIsActiveTimeout) {
+        clearTimeout(this.userIsActiveTimeout)
       }
 
       this.userIsActive = true
 
-      this.overlayMousemoveTimeout = window.setTimeout(
+      // The user is considered inactive 1 second
+      // after having stopped moving his mouse
+      this.userIsActiveTimeout = window.setTimeout(
         () => (this.userIsActive = false),
         1000
       )
     }
   }
 
+  /**
+   * Click the overlay
+   */
   private handleOverlayClick(): void {
-    if (this.touchscreen) {
+    if (isTouchScreen()) {
+      // User is active = show overlay + player controls
       this.userIsActive = !this.userIsActive
     } else {
+      // Pause/play video
       this.toggleVideo()
     }
   }
 
   /**
-   * Mouseover the player actions
+   * Mouseover the player controls
    */
-  private handlePlayerActionsMouseover(): void {
-    // Keep user as active
-    if (!this.touchscreen) {
-      if (this.overlayMousemoveTimeout) {
-        clearTimeout(this.overlayMousemoveTimeout)
+  private handlePlayerControlsMouseover(): void {
+    // Keep user as active when he hovers the player controls
+    // and so we let display these
+    if (!isTouchScreen()) {
+      if (this.userIsActiveTimeout) {
+        clearTimeout(this.userIsActiveTimeout)
       }
 
       this.userIsActive = true
@@ -269,6 +285,14 @@ export default class GamePage extends Vue {
   }
 
   &.fullscreen {
+    #{$self}__overlay,
+    #{$self}__timer {
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      transition: opacity $transition-duration;
+    }
+
     #{$self}__overlay {
       background-color: $gray-900;
       background: linear-gradient(
@@ -280,17 +304,23 @@ export default class GamePage extends Vue {
       display: block;
       height: 100%;
       left: 0;
-      opacity: 0;
-      position: absolute;
-      top: 0;
-      transition: opacity $transition-duration;
       width: 100%;
+      z-index: 1;
+    }
+
+    #{$self}__timer {
+      left: 50%;
+      transform: translateX(-50%);
       z-index: 2;
     }
 
     &.user-is-active {
       #{$self}__overlay {
         opacity: 0.8;
+      }
+
+      #{$self}__timer {
+        opacity: 1;
       }
     }
   }
@@ -323,14 +353,14 @@ export default class GamePage extends Vue {
       width: 100%;
     }
 
-    .player-actions {
+    .player-controls {
       bottom: 35px;
       left: 50%;
       max-width: 325px;
       position: absolute;
       transform: translateX(-50%);
       width: calc(100% - 30px);
-      z-index: 3;
+      z-index: 2;
 
       @include media-breakpoint-up(sm) {
         max-width: 1000px;
