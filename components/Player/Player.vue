@@ -115,7 +115,7 @@ export default class GamePage extends Vue {
     canAutoPlay.video().then(({ result }) => {
       if (result && result === true) {
         // Autoplay
-        // this.playVideo()
+        this.playVideo()
       }
     })
 
