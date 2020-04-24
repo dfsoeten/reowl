@@ -130,7 +130,11 @@ export default class GamePage extends Vue {
 
   private destroyed() {
     window.clearInterval(this.currentTimeInterval)
-    ;(screenfull as any).off('change', this.handleFullscreenChange)
+
+    if (screenfull.isEnabled) {
+      screenfull.off('change', this.handleFullscreenChange)
+    }
+
     document.removeEventListener('keyup', this.handleSpacebarKeyup)
   }
 
