@@ -19,9 +19,8 @@ a:not(.btn) {
   text-decoration: underline;
 }
 
-// Page transition - Fade in/out
-.page-enter-active,
-.page-leave-active {
+// Page transition - Fade in
+.page-enter-active {
   transition: opacity $transition-duration;
 }
 
