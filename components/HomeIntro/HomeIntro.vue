@@ -13,7 +13,8 @@
     </h1>
     <div class="home-intro__alerts">
       <div
-        class="home-intro__alert home-intro__alert--white-background d-flex d-lg-none"
+        v-if="!fullscreenEnabled"
+        class="home-intro__alert home-intro__alert--white-background"
       >
         <div>
           <WarningIcon />
@@ -33,11 +34,14 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
+import screenfull from 'screenfull'
 import HelpIcon from '~/assets/images/icons/help.svg?inline'
 import WarningIcon from '~/assets/images/icons/warning.svg?inline'
 
 @Component({ components: { HelpIcon, WarningIcon } })
 export default class HomeIntro extends Vue {
+  private fullscreenEnabled: boolean = screenfull.isEnabled
+
   private get descriptionPart1() {
     return (this.$t('homeIntro.description') as string).split(
       '[SPOILER-FREE]'
@@ -64,7 +68,7 @@ export default class HomeIntro extends Vue {
     font-weight: 800;
     line-height: 1.35em;
     margin: 0 auto;
-    padding: 45px 0;
+    padding: 45px 0 35px 0;
     text-align: center;
 
     @include media-breakpoint-up(md) {
@@ -92,17 +96,31 @@ export default class HomeIntro extends Vue {
 
       > svg {
         display: none;
-        height: 42px;
-        margin-left: 10px;
-        min-width: 42px;
-        width: 42px;
+        height: 24px;
+        margin-left: 5px;
+        min-width: 24px;
+        width: 24px;
 
-        @media (hover: hover) {
-          display: block;
+        @include media-breakpoint-up(md) {
+          height: 32px;
+          margin-left: 8px;
+          min-width: 32px;
+          width: 32px;
+        }
+
+        @include media-breakpoint-up(xl) {
+          height: 42px;
+          margin-left: 10px;
+          min-width: 42px;
+          width: 42px;
         }
 
         path {
           fill: #fff;
+        }
+
+        @media (hover: hover) {
+          display: block;
         }
       }
 
@@ -151,11 +169,11 @@ export default class HomeIntro extends Vue {
     flex-direction: column;
 
     > * {
-      margin-bottom: 10px;
+      margin-bottom: 20px;
       max-width: 500px;
 
       @include media-breakpoint-up(sm) {
-        margin-bottom: 20px;
+        margin-bottom: 35px;
       }
     }
   }
@@ -165,7 +183,6 @@ export default class HomeIntro extends Vue {
     border-radius: 12px;
     display: flex;
     font-size: 14px;
-    padding: 15px;
 
     @include media-breakpoint-up(md) {
       font-size: 16px;
@@ -190,6 +207,7 @@ export default class HomeIntro extends Vue {
     &--white-background {
       background-color: #fff;
       color: $gray-900;
+      padding: 15px;
 
       > div:nth-child(1) > svg path {
         fill: $gray-900;
