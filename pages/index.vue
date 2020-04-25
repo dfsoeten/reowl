@@ -25,7 +25,7 @@ import SeeMoreOnYoutube from '~/components/SeeMoreOnYoutube/SeeMoreOnYoutube.vue
     return {
       title: ((this.$t('global.websiteName') as string) +
         ' - ' +
-        this.$t('game.theLatestGames')) as string,
+        this.$t('global.shortDescription')) as string,
       meta: [
         {
           name: 'description',

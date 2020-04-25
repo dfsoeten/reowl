@@ -1,7 +1,8 @@
 {
   "global": {
     "websiteName": "Reowl",
-    "description": "Replays des matchs Overwatch League sans spoiler et en français"
+    "description": "Replays des matchs Overwatch League sans spoiler et en français",
+    "shortDescription": "Replays des matchs Overwatch League"
   },
   "links": {
     "home": "Accueil",
