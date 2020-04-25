@@ -19,9 +19,14 @@ a:not(.btn) {
   text-decoration: underline;
 }
 
-// Page transition - Fade in/out
-.page-enter-active,
-.page-leave-active {
+// This will hide the focus indicator if the button receives focus via the mouse,
+// but it will still show up on keyboard focus
+button:focus:not(.focus-visible) {
+  outline: none;
+}
+
+// Page transition - Fade in
+.page-enter-active {
   transition: opacity $transition-duration;
 }
 

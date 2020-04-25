@@ -1,7 +1,8 @@
 {
   "global": {
     "websiteName": "Reowl",
-    "description": "Replays des matchs Overwatch League sans spoiler et en français"
+    "description": "Replays des matchs Overwatch League sans spoiler et en français",
+    "shortDescription": "Replays des matchs Overwatch League"
   },
   "links": {
     "home": "Accueil",
@@ -29,6 +30,10 @@
   },
   "player": {
     "backToStart": "Retour début"
+  },
+  "twitterCard": {
+    "body": "Tu as trouvé <strong>un bug</strong> ?<br />Tu as <strong>une idée</strong> pour améliorer le site ?<br />Ou tu souhaites simplement suivre les futures évolutions ?",
+    "footer": "Ça se passe sur Twitter :"
   },
   "cookieConsent": {
     "description": "Ce site utilise des cookies à des fins statistiques (comptabilisation des visites).",

@@ -5,7 +5,7 @@
   >
     <b-container>
       <b-row>
-        <b-col sm="12" :lg="sidebarVisible ? 9 : 12">
+        <b-col sm="12" :lg="sidebarVisible ? 9 : 12" class="mb-4 mb-lg-0">
           <div class="game-page__main">
             <div class="game-page__header">
               <b-button
@@ -43,15 +43,15 @@
                 {{ game.team1.name }} {{ $t('game.vs') }} {{ game.team2.name }}
               </h1>
             </div>
-            <Player ref="player" :game="game" class="game-page__player" />
+            <Player
+              ref="player"
+              :game="game"
+              class="game-page__player mb-3 mb-lg-5"
+            />
+            <TwitterCard />
           </div>
         </b-col>
-        <b-col
-          sm="12"
-          lg="3"
-          class="mt-3 mt-lg-0"
-          :class="{ 'd-block d-lg-none': !sidebarVisible }"
-        >
+        <b-col sm="12" lg="3" :class="{ 'd-block d-lg-none': !sidebarVisible }">
           <div class="game-page__sidebar">
             <GameFeed :title="$t('game.latestGames')" :games="latestGames" />
           </div>
@@ -68,6 +68,7 @@ import { IGame } from '~/types/game'
 import { Game } from '~/services/game'
 import GameFeed from '~/components/GameFeed/GameFeed.vue'
 import Player from '~/components/Player/Player.vue'
+import TwitterCard from '~/components/TwitterCard/TwitterCard.vue'
 import ArrowThinLeftIcon from '~/assets/images/icons/arrow-thin-left.svg?inline'
 import MinimizeIcon from '~/assets/images/icons/minimize.svg?inline'
 
@@ -106,7 +107,7 @@ import MinimizeIcon from '~/assets/images/icons/minimize.svg?inline'
 
     return { game, latestGames }
   },
-  components: { ArrowThinLeftIcon, GameFeed, MinimizeIcon, Player }
+  components: { ArrowThinLeftIcon, GameFeed, MinimizeIcon, Player, TwitterCard }
 })
 export default class GamePage extends Vue {
   private sidebarVisible: boolean = true
