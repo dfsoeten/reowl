@@ -310,7 +310,11 @@ export default class PlayerControls extends Vue {
 
     .vue-slider {
       flex: 1;
-      min-width: 50px;
+      min-width: 35px;
+
+      @media (min-width: 350px) {
+        min-width: 50px;
+      }
     }
   }
 
