@@ -21,7 +21,7 @@
         :video-id="game.video.id"
         :player-vars="playerVars"
         class="youtube-player"
-        @ready="loading = false"
+        @ready="handleYoutubePlayerReady"
         @playing="isPlaying = true"
         @paused="isPlaying = false"
       />
@@ -35,6 +35,8 @@
       v-show="!fullscreen || userIsActive"
       ref="playerControls"
       :is-playing="isPlaying"
+      :available-playback-rates="availablePlaybackRates"
+      :playback-rate="playbackRate"
       :volume="volume"
       :class="{
         'fullscreen-mode': fullscreen
@@ -43,6 +45,7 @@
       @paused="pauseVideo"
       @moved="move"
       @backToStart="backToStart"
+      @playbackRateChanged="handlePlaybackRateChange"
       @volumeChanged="handleVolumeChange"
       @fullscreenToggled="toggleFullscreen"
       @mouseover.native="handlePlayerControlsMouseover"
@@ -53,7 +56,7 @@
 <script lang="ts">
 /// <reference types="youtube" />
 
-import { Vue, Component, Prop } from 'vue-property-decorator'
+import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 import canAutoPlay from 'can-autoplay'
 import screenfull from 'screenfull'
 import { isTouchScreen } from '~/helpers/touchscreen'
@@ -80,6 +83,8 @@ export default class GamePage extends Vue {
   private userIsActive: boolean = false
   private userIsActiveTimeout!: number
   private isPlaying: boolean = false
+  private availablePlaybackRates: number[] = []
+  private playbackRate: number = 1
   private volume: number = 100
   private currentTime: number = 0
   private currentTimeInterval!: number
@@ -109,7 +114,7 @@ export default class GamePage extends Vue {
     // Set interval for the current time indicator
     this.currentTimeInterval = window.setInterval(async () => {
       this.currentTime = await this.youtubePlayer.getCurrentTime()
-    }, 200)
+    }, 100)
 
     // Check if autoplay is allowed
     canAutoPlay.video().then(({ result }) => {
@@ -136,6 +141,13 @@ export default class GamePage extends Vue {
     }
 
     document.removeEventListener('keyup', this.handleSpacebarKeyup)
+  }
+
+  private async handleYoutubePlayerReady(): Promise<void> {
+    this.loading = false
+
+    // Get available playback rates (speed)
+    this.availablePlaybackRates = await this.youtubePlayer.getAvailablePlaybackRates()
   }
 
   private async toggleVideo() {
@@ -167,8 +179,22 @@ export default class GamePage extends Vue {
     this.youtubePlayer.seekTo(currentTime + offset, true)
   }
 
+  private handlePlaybackRateChange(playbackRate: number): void {
+    this.playbackRate = playbackRate
+  }
+
+  @Watch('playbackRate')
+  private handleYoutubePlayerPlaybackRateChange(): void {
+    this.youtubePlayer.setPlaybackRate(this.playbackRate)
+  }
+
   private handleVolumeChange(volume: number): void {
-    this.youtubePlayer.setVolume(volume)
+    this.volume = volume
+  }
+
+  @Watch('volume')
+  private handleYoutubePlayerVolumeChange(): void {
+    this.youtubePlayer.setVolume(this.volume)
   }
 
   private handleFullscreenChange(): void {

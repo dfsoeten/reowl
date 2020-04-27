@@ -9,6 +9,19 @@
           {{ $t('player.backToStart') }}
         </span>
       </button>
+      <div>
+        <PlaybackRateControl
+          v-if="availablePlaybackRates.length > 0"
+          :available-playback-rates="availablePlaybackRates"
+          :playback-rate="playbackRate"
+          @playbackRateChanged="
+            (playbackRate) => $emit('playbackRateChanged', playbackRate)
+          "
+        >
+          <SpeedIcon />
+          <span v-if="playbackRate !== 1">x{{ playbackRate }}</span>
+        </PlaybackRateControl>
+      </div>
     </div>
     <div>
       <div>
@@ -82,6 +95,8 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 import screenfull from 'screenfull'
 import VueSlider from 'vue-slider-component'
 import 'vue-slider-component/theme/default.css'
+import PlaybackRateControl from '~/components/PlaybackRateControl/PlaybackRateControl.vue'
+import SpeedIcon from '~/assets/images/icons/speed.svg?inline'
 import PlayIcon from '~/assets/images/icons/play.svg?inline'
 import PauseIcon from '~/assets/images/icons/pause.svg?inline'
 import ArrowRightIcon from '~/assets/images/icons/arrow-right.svg?inline'
@@ -93,7 +108,9 @@ import FullscreenIcon from '~/assets/images/icons/fullscreen.svg?inline'
 
 @Component({
   components: {
+    PlaybackRateControl,
     VueSlider,
+    SpeedIcon,
     PlayIcon,
     PauseIcon,
     ArrowRightIcon,
@@ -107,6 +124,12 @@ import FullscreenIcon from '~/assets/images/icons/fullscreen.svg?inline'
 export default class PlayerControls extends Vue {
   @Prop({ type: Boolean, required: true })
   private isPlaying: boolean = false
+
+  @Prop({ type: Array, required: true })
+  private availablePlaybackRates!: number[]
+
+  @Prop({ type: Number, required: true })
+  private playbackRate!: number
 
   @Prop({ type: Number, required: true })
   private volume: number = 100
@@ -333,6 +356,10 @@ export default class PlayerControls extends Vue {
 @import '~/assets/styles/_variables.scss';
 
 .player-controls {
+  .playback-rate-control {
+    z-index: 1;
+  }
+
   .vue-slider {
     margin-right: 7px;
   }
