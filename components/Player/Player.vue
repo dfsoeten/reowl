@@ -311,6 +311,17 @@ export default class GamePage extends Vue {
       line-height: 1em;
       padding: 3px 8px;
       text-align: center;
+
+      // Fix strange padding on xs screen (related to the font)
+      @include media-breakpoint-down(sm) {
+        padding-bottom: 1px;
+
+        // Specific to iOS devices
+        @supports (-webkit-touch-callout: none) {
+          padding-bottom: 0;
+          padding-top: 5px;
+        }
+      }
     }
   }
 
