@@ -9,3 +9,4 @@ declare module '*.mp4' {
 }
 
 declare module 'idle-js'
+declare module 'vue-click-outside'

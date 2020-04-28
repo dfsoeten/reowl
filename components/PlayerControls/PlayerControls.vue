@@ -1,5 +1,11 @@
 <template>
-  <div ref="playerControls" class="player-controls">
+  <div
+    ref="playerControls"
+    class="player-controls"
+    :class="{
+      'fullscreen-mode': fullscreen
+    }"
+  >
     <div>
       <button
         class="player-controls__btn-back-start"
@@ -9,6 +15,19 @@
           {{ $t('player.backToStart') }}
         </span>
       </button>
+      <div>
+        <PlaybackRateControl
+          v-if="availablePlaybackRates.length > 0"
+          :available-playback-rates="availablePlaybackRates"
+          :playback-rate="playbackRate"
+          @playbackRateChanged="
+            (playbackRate) => $emit('playbackRateChanged', playbackRate)
+          "
+        >
+          <SpeedIcon />
+          <span v-if="playbackRate !== 1">x{{ playbackRate }}</span>
+        </PlaybackRateControl>
+      </div>
     </div>
     <div>
       <div>
@@ -60,7 +79,16 @@
     </div>
     <div>
       <div class="player-controls__volume">
-        <button @click="handleVolumeMuteToggling">
+        <button
+          :title="
+            $t(
+              volumeSliderValue === 0
+                ? 'player.unmuteVolume'
+                : 'player.muteVolume'
+            )
+          "
+          @click="handleVolumeMuteToggling"
+        >
           <VolumeIconMute v-if="volumeSliderValue === 0" />
           <VolumeIcon v-else />
         </button>
@@ -70,7 +98,13 @@
           @change="$emit('volumeChanged', volumeSliderValue)"
         />
       </div>
-      <button v-if="fullscreenEnabled" @click="$emit('fullscreenToggled')">
+      <button
+        v-if="fullscreenEnabled"
+        :title="
+          $t(fullscreen ? 'player.exitFullscreen' : 'player.enterFullscreen')
+        "
+        @click="$emit('fullscreenToggled')"
+      >
         <FullscreenIcon />
       </button>
     </div>
@@ -82,6 +116,8 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 import screenfull from 'screenfull'
 import VueSlider from 'vue-slider-component'
 import 'vue-slider-component/theme/default.css'
+import PlaybackRateControl from '~/components/PlaybackRateControl/PlaybackRateControl.vue'
+import SpeedIcon from '~/assets/images/icons/speed.svg?inline'
 import PlayIcon from '~/assets/images/icons/play.svg?inline'
 import PauseIcon from '~/assets/images/icons/pause.svg?inline'
 import ArrowRightIcon from '~/assets/images/icons/arrow-right.svg?inline'
@@ -93,7 +129,9 @@ import FullscreenIcon from '~/assets/images/icons/fullscreen.svg?inline'
 
 @Component({
   components: {
+    PlaybackRateControl,
     VueSlider,
+    SpeedIcon,
     PlayIcon,
     PauseIcon,
     ArrowRightIcon,
@@ -108,8 +146,17 @@ export default class PlayerControls extends Vue {
   @Prop({ type: Boolean, required: true })
   private isPlaying: boolean = false
 
+  @Prop({ type: Array, required: true })
+  private availablePlaybackRates!: number[]
+
+  @Prop({ type: Number, required: true })
+  private playbackRate!: number
+
   @Prop({ type: Number, required: true })
   private volume: number = 100
+
+  @Prop({ type: Boolean, required: true })
+  private fullscreen: boolean = false
 
   public $refs!: {
     playerControls: any
@@ -287,7 +334,11 @@ export default class PlayerControls extends Vue {
 
     .vue-slider {
       flex: 1;
-      min-width: 50px;
+      min-width: 35px;
+
+      @media (min-width: 350px) {
+        min-width: 50px;
+      }
     }
   }
 
@@ -333,6 +384,10 @@ export default class PlayerControls extends Vue {
 @import '~/assets/styles/_variables.scss';
 
 .player-controls {
+  .playback-rate-control {
+    z-index: 1;
+  }
+
   .vue-slider {
     margin-right: 7px;
   }
