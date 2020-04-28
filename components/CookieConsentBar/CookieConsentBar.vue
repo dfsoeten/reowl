@@ -116,6 +116,7 @@ export default class CookieConsentBar extends Vue {
   left: 0;
   position: fixed;
   width: 100%;
+  z-index: 5;
 
   &__inner {
     display: flex;
