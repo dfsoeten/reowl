@@ -29,7 +29,12 @@
     "old": "Il y a plus d’un mois"
   },
   "player": {
-    "backToStart": "Retour début"
+    "backToStart": "Retour début",
+    "playbackRate": "Vitesse de lecture",
+    "muteVolume": "Désactiver le son",
+    "unmuteVolume": "Activer le son",
+    "enterFullscreen": "Plein écran",
+    "exitFullscreen": "Quitter le plein écran"
   },
   "twitterCard": {
     "body": "Tu as trouvé <strong>un bug</strong> ?<br />Tu as <strong>une idée</strong> pour améliorer le site ?<br />Ou tu souhaites simplement suivre les futures évolutions ?",

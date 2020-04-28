@@ -1,5 +1,11 @@
 <template>
-  <div ref="playerControls" class="player-controls">
+  <div
+    ref="playerControls"
+    class="player-controls"
+    :class="{
+      'fullscreen-mode': fullscreen
+    }"
+  >
     <div>
       <button
         class="player-controls__btn-back-start"
@@ -73,7 +79,16 @@
     </div>
     <div>
       <div class="player-controls__volume">
-        <button @click="handleVolumeMuteToggling">
+        <button
+          :title="
+            $t(
+              volumeSliderValue === 0
+                ? 'player.unmuteVolume'
+                : 'player.muteVolume'
+            )
+          "
+          @click="handleVolumeMuteToggling"
+        >
           <VolumeIconMute v-if="volumeSliderValue === 0" />
           <VolumeIcon v-else />
         </button>
@@ -83,7 +98,13 @@
           @change="$emit('volumeChanged', volumeSliderValue)"
         />
       </div>
-      <button v-if="fullscreenEnabled" @click="$emit('fullscreenToggled')">
+      <button
+        v-if="fullscreenEnabled"
+        :title="
+          $t(fullscreen ? 'player.exitFullscreen' : 'player.enterFullscreen')
+        "
+        @click="$emit('fullscreenToggled')"
+      >
         <FullscreenIcon />
       </button>
     </div>
@@ -133,6 +154,9 @@ export default class PlayerControls extends Vue {
 
   @Prop({ type: Number, required: true })
   private volume: number = 100
+
+  @Prop({ type: Boolean, required: true })
+  private fullscreen: boolean = false
 
   public $refs!: {
     playerControls: any

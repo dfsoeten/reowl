@@ -3,6 +3,7 @@
     v-click-outside="handleClickOutside"
     class="playback-rate-control"
     :class="{ open: open }"
+    :title="$t('player.playbackRate')"
     @click="handleDropdownToggling"
   >
     <slot></slot>

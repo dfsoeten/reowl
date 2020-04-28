@@ -38,9 +38,7 @@
       :available-playback-rates="availablePlaybackRates"
       :playback-rate="playbackRate"
       :volume="volume"
-      :class="{
-        'fullscreen-mode': fullscreen
-      }"
+      :fullscreen="fullscreen"
       @playing="playVideo"
       @paused="pauseVideo"
       @moved="move"
