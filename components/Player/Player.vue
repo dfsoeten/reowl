@@ -353,6 +353,10 @@ export default class GamePage extends Vue {
       z-index: 2;
     }
 
+    &:not(.user-is-active) {
+      cursor: none;
+    }
+
     &.user-is-active {
       #{$self}__overlay {
         opacity: 0.8;
