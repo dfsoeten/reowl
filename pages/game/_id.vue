@@ -256,32 +256,36 @@ export default class GamePage extends Vue {
 @import '~/assets/styles/_variables.scss';
 
 .game-page {
-  iframe.youtube-player,
-  .placeholder-player {
-    height: 250px;
+  .player:not(.fullscreen) {
+    iframe.youtube-player,
+    .placeholder-player {
+      height: 250px;
 
-    @include media-breakpoint-up(sm) {
-      height: 286px;
-    }
+      @include media-breakpoint-up(sm) {
+        height: 286px;
+      }
 
-    @include media-breakpoint-up(md) {
-      height: 388px;
-    }
+      @include media-breakpoint-up(md) {
+        height: 388px;
+      }
 
-    @include media-breakpoint-up(xl) {
-      height: 534px;
+      @include media-breakpoint-up(xl) {
+        height: 534px;
+      }
     }
   }
 
   &:not(.sidebar-visible) {
-    iframe.youtube-player,
-    .placeholder-player {
-      @include media-breakpoint-up(lg) {
-        height: 520px;
-      }
+    .player:not(.fullscreen) {
+      iframe.youtube-player,
+      .placeholder-player {
+        @include media-breakpoint-up(lg) {
+          height: 520px;
+        }
 
-      @include media-breakpoint-up(xl) {
-        height: 723px;
+        @include media-breakpoint-up(xl) {
+          height: 723px;
+        }
       }
     }
   }
