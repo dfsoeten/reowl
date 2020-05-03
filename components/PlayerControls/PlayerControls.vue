@@ -17,7 +17,6 @@
       </button>
       <div>
         <PlaybackRateControl
-          v-if="availablePlaybackRates.length > 0"
           :available-playback-rates="availablePlaybackRates"
           :playback-rate="playbackRate"
           @playbackRateChanged="

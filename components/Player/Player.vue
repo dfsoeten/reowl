@@ -383,7 +383,7 @@ export default class GamePage extends Vue {
 
   &.loading {
     iframe.youtube-player {
-      height: 0;
+      height: 0 !important;
     }
   }
 
