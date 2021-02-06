@@ -4,7 +4,8 @@
       "src": "nuxt.config.js",
       "use": "@nuxtjs/vercel-builder",
       "config": {
-        "serverFiles": ["./settings.json", "./locales/fr.json"]
+        "serverFiles": ["./settings.json", "./locales/fr.json"],
+        "generateStaticRoutes": true
       }
     }
   ]
