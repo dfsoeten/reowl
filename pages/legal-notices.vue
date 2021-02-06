@@ -38,20 +38,3 @@ export default class LegalNoticesPage extends Vue {
   }
 }
 </script>
-
-<style lang="scss">
-.matomo-iframe-wrapper {
-  border: 1px solid #fff;
-  border-radius: 16px;
-  display: inline-block;
-  margin-bottom: 25px;
-  max-width: 100%;
-  padding: 15px;
-
-  > iframe {
-    border: 0;
-    height: 280px;
-    max-width: 100%;
-  }
-}
-</style>

@@ -83,9 +83,7 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     // Doc: https://github.com/nuxt-community/svg-module
-    '@nuxtjs/svg',
-    // Doc: https://github.com/pimlie/nuxt-matomo
-    ['nuxt-matomo', settings.matomo]
+    '@nuxtjs/svg'
   ],
   /*
    ** Axios module configuration
