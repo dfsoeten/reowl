@@ -20,7 +20,6 @@
     "date-fns": "^2.17.0",
     "focus-visible": "^5.2.0",
     "nuxt": "^2.14.12",
-    "nuxt-matomo": "^1.2.4",
     "screenfull": "^5.1.0",
     "subscribe-ui-event": "^2.0.7",
     "vue": "^2.6.12",
