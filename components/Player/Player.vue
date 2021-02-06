@@ -86,6 +86,7 @@ export default class GamePage extends Vue {
   private volume: number = 100
   private currentTime: number = 0
   private currentTimeInterval!: number
+  // eslint-disable-next-line no-undef
   private playerVars: YT.PlayerVars = {
     controls: 0,
     playsinline: 1,
@@ -96,6 +97,7 @@ export default class GamePage extends Vue {
     return await this.youtubePlayer.getPlayerState()
   }
 
+  // eslint-disable-next-line no-undef
   private get youtubePlayer(): YT.Player {
     return this.$refs.youtube.player
   }
@@ -149,6 +151,7 @@ export default class GamePage extends Vue {
   }
 
   private async toggleVideo() {
+    // eslint-disable-next-line no-undef
     const playerState: YT.PlayerState = await this.getPlayerState()
 
     // eslint-disable-next-line no-undef

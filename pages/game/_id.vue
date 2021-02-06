@@ -138,6 +138,7 @@ export default class GamePage extends Vue {
    */
   private async trackPlaying(): Promise<void> {
     if (this.$refs.player) {
+      // eslint-disable-next-line no-undef
       const playerState: YT.PlayerState = await this.$refs.player.getPlayerState()
 
       // eslint-disable-next-line no-undef

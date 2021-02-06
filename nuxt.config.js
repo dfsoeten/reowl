@@ -2,7 +2,7 @@ import settings from './settings.json'
 import frLocales from './locales/fr.json'
 
 export default {
-  mode: 'spa',
+  ssr: false,
   /*
    ** Headers of the page
    */
@@ -112,7 +112,9 @@ export default {
    */
   typescript: {
     typeCheck: {
-      eslint: true
+      eslint: {
+        files: './**/*.{ts,js,vue}'
+      }
     }
   },
   /**

@@ -1,4 +1,5 @@
 declare module '*.svg?inline' {
+  import Vue from 'vue'
   const content: Vue.Component
   export default content
 }
