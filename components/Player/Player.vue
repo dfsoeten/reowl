@@ -9,7 +9,7 @@
     }"
   >
     <div
-      v-if="fullscreen"
+      v-show="fullscreen"
       class="player__overlay"
       @mousemove="handleOverlayMousemove"
       @click="handleOverlayClick"
@@ -112,9 +112,11 @@ export default class GamePage extends Vue {
 
   private mounted() {
     // Set interval for the current time indicator
-    this.currentTimeInterval = window.setInterval(async () => {
-      this.currentTime = await this.youtubePlayer.getCurrentTime()
-    }, 100)
+    if (typeof window !== 'undefined') {
+      this.currentTimeInterval = window.setInterval(async () => {
+        this.currentTime = await this.youtubePlayer.getCurrentTime()
+      }, 100)
+    }
 
     // Check if autoplay is allowed
     canAutoPlay.video().then(({ result }) => {
@@ -130,17 +132,23 @@ export default class GamePage extends Vue {
     }
 
     // Spacebar keyup
-    document.addEventListener('keyup', this.handleSpacebarKeyup)
+    if (typeof document !== 'undefined') {
+      document.addEventListener('keyup', this.handleSpacebarKeyup)
+    }
   }
 
   private destroyed() {
-    window.clearInterval(this.currentTimeInterval)
+    if (typeof window !== 'undefined') {
+      window.clearInterval(this.currentTimeInterval)
+    }
 
     if (screenfull.isEnabled) {
       screenfull.off('change', this.handleFullscreenChange)
     }
 
-    document.removeEventListener('keyup', this.handleSpacebarKeyup)
+    if (typeof document !== 'undefined') {
+      document.removeEventListener('keyup', this.handleSpacebarKeyup)
+    }
   }
 
   private async handleYoutubePlayerReady(): Promise<void> {
@@ -248,10 +256,12 @@ export default class GamePage extends Vue {
 
       // The user is considered inactive 1 second
       // after having stopped moving his mouse
-      this.userIsActiveTimeout = window.setTimeout(
-        () => (this.userIsActive = false),
-        1000
-      )
+      if (typeof window !== 'undefined') {
+        this.userIsActiveTimeout = window.setTimeout(
+          () => (this.userIsActive = false),
+          1000
+        )
+      }
     }
   }
 
