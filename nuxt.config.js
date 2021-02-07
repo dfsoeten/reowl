@@ -2,7 +2,7 @@ import settings from './settings.json'
 import frLocales from './locales/fr.json'
 
 export default {
-  ssr: false,
+  ssr: true,
   /*
    ** Headers of the page
    */
@@ -103,17 +103,8 @@ export default {
         test: /\.html$/,
         loader: 'html-loader'
       })
-    }
-  },
-  /*
-   ** TypeScript - Check types
-   */
-  typescript: {
-    typeCheck: {
-      eslint: {
-        files: './**/*.{ts,js,vue}'
-      }
-    }
+    },
+    babel: { compact: true }
   },
   /**
    * Disable automatic inclusion
@@ -122,6 +113,7 @@ export default {
   bootstrapVue: {
     css: false,
     bvCSS: false,
+    icons: false,
     componentPlugins: ['ButtonPlugin', 'LayoutPlugin']
   }
 }
