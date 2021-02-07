@@ -35,7 +35,6 @@
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 import { formatDistanceToNow } from 'date-fns'
 import { fr } from 'date-fns/locale'
-import { subscribe, Subscription } from 'subscribe-ui-event'
 import { IGame } from '~/types/game'
 
 @Component
@@ -44,7 +43,6 @@ export default class GameCard extends Vue {
   private game!: IGame
 
   private gameData!: IGame
-  private resizeSubscription!: Subscription
 
   public $refs!: {
     gameCardInner: any
@@ -54,31 +52,9 @@ export default class GameCard extends Vue {
     return formatDistanceToNow(this.game.date, { locale: fr })
   }
 
-  private mounted(): void {
-    this.setMinHeight()
-    this.resizeSubscription = subscribe('resize', this.setMinHeight)
-  }
-
-  private destroyed(): void {
-    this.resizeSubscription.unsubscribe()
-  }
-
   @Watch('game', { immediate: true })
   private onGameChanged() {
     this.gameData = this.game
-  }
-
-  /**
-   * Apply a min height to the game gard
-   * to respect a width/height ratio
-   */
-  private setMinHeight(): void {
-    const ratio: number = 0.62
-    const minHeight: string = (
-      this.$refs.gameCardInner.$el.offsetWidth * ratio
-    ).toFixed(0)
-
-    this.$refs.gameCardInner.$el.style.minHeight = `${minHeight}px`
   }
 }
 </script>
@@ -88,6 +64,14 @@ export default class GameCard extends Vue {
 
 .game-card {
   $self: &;
+
+  > a {
+    // Aspect ratio
+    &:after {
+      content: '';
+      padding-bottom: 62%;
+    }
+  }
 
   &__inner {
     border-radius: 8%/13%;
