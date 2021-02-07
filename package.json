@@ -1,6 +1,5 @@
 {
   "name": "reowl",
-  "version": "1.0.2",
   "description": "Watch Overwatch League replays spoiler-free, in the 🇫🇷 language",
   "author": "Kévin Painchaud",
   "scripts": {
