@@ -4,7 +4,7 @@ Watch Overwatch League replays spoiler-free, in the 🇫🇷 language
 
 [https://www.reowl.fr](https://www.reowl.fr)
 
-![Website screenshot](/ressources/website-screenshot.png)
+![Website screenshot](/ressources/website-screenshot.jpg)
 
 ## Environment
 

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!consent" class="cookie-consent-bar">
+  <div v-show="consent !== true" class="cookie-consent-bar">
     <b-container>
       <b-row>
         <b-col>
@@ -30,60 +30,42 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Watch } from 'vue-property-decorator'
-import { subscribe, Subscription } from 'subscribe-ui-event'
+import { Vue, Component } from 'vue-property-decorator'
 import { differenceInDays } from 'date-fns'
 import settings from '~/settings.json'
 
 @Component
 export default class CookieConsentBar extends Vue {
-  private consent: boolean = false
+  private consent: boolean = true
   private consentStorageKey: string = `${settings.localStoragePrefix}-cookie-consent`
   private consentDuration: number = 365 // days
-  private scrollOffset: number = 300 // Distance to scroll to consent (px)
-  private scrollSubscription!: Subscription
-  private initialScrollY!: number
 
   /**
    * Get the consent from local storage
    */
   private created(): void {
     // Consent exists
-    if (localStorage.getItem(this.consentStorageKey)) {
-      // Remove it if given too long ago
-      if (
-        differenceInDays(
-          new Date(),
-          new Date(localStorage.getItem(this.consentStorageKey) || '')
-        ) >= this.consentDuration
-      ) {
-        localStorage.removeItem(this.consentStorageKey)
+    if (typeof window !== 'undefined') {
+      if (localStorage.getItem(this.consentStorageKey)) {
+        // Remove it if given too long ago
+        if (
+          differenceInDays(
+            new Date(),
+            new Date(localStorage.getItem(this.consentStorageKey) || '')
+          ) >= this.consentDuration
+        ) {
+          localStorage.removeItem(this.consentStorageKey)
+          this.consent = false
+        }
+      } else {
+        this.consent = false
       }
-      // Is valid
-      else {
-        this.consent = true
-      }
-    }
-  }
-
-  private mounted(): void {
-    if (!this.consent) {
-      this.initialScrollY = window.scrollY
-      this.scrollSubscription = subscribe('scroll', this.handleScrollingConsent)
-    }
-  }
-
-  private destroyed(): void {
-    if (this.scrollSubscription) {
-      this.scrollSubscription.unsubscribe()
     }
   }
 
   /**
-   * Consent usage of cookies
-   * on button click, scroll & page change
+   * Consent usage of cookies on button click
    */
-  @Watch('$route')
   private giveConsent(): void {
     // Exit if consent already given
     if (this.consent) {
@@ -92,16 +74,6 @@ export default class CookieConsentBar extends Vue {
 
     this.consent = true
     localStorage.setItem(this.consentStorageKey, new Date().toString())
-    this.scrollSubscription.unsubscribe()
-  }
-
-  private handleScrollingConsent(): void {
-    if (
-      window.scrollY > this.initialScrollY + this.scrollOffset ||
-      window.scrollY < this.initialScrollY - this.scrollOffset
-    ) {
-      this.giveConsent()
-    }
   }
 }
 </script>

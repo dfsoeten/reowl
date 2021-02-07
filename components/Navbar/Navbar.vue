@@ -41,13 +41,16 @@ export default class Navbar extends Vue {}
 
   &__logo {
     transition: transform $transition-duration;
+    height: 29px;
     width: 100px;
 
     @include media-breakpoint-up(md) {
+      height: 41px;
       width: 140px;
     }
 
     @include media-breakpoint-up(xl) {
+      height: 52px;
       width: 180px;
     }
 

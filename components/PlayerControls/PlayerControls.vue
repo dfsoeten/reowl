@@ -98,7 +98,7 @@
         />
       </div>
       <button
-        v-if="fullscreenEnabled"
+        v-show="fullscreenEnabled"
         :title="
           $t(fullscreen ? 'player.exitFullscreen' : 'player.enterFullscreen')
         "
@@ -113,7 +113,8 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import screenfull from 'screenfull'
-import VueSlider from 'vue-slider-component'
+import VueSlider from 'vue-slider-component/dist-css/vue-slider-component.umd.min'
+import 'vue-slider-component/dist-css/vue-slider-component.css'
 import 'vue-slider-component/theme/default.css'
 import PlaybackRateControl from '~/components/PlaybackRateControl/PlaybackRateControl.vue'
 import SpeedIcon from '~/assets/images/icons/speed.svg?inline'

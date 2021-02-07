@@ -125,11 +125,15 @@ export default class GamePage extends Vue {
   private mounted(): void {
     // Regularly (every 60 seconds) send an event to Google Analytics
     // to tell that the user is always active when he watching a video
-    this.playTrackingInterval = window.setInterval(this.trackPlaying, 60000)
+    if (typeof window !== 'undefined') {
+      this.playTrackingInterval = window.setInterval(this.trackPlaying, 60000)
+    }
   }
 
   private destroyed() {
-    window.clearInterval(this.playTrackingInterval)
+    if (typeof window !== 'undefined') {
+      window.clearInterval(this.playTrackingInterval)
+    }
   }
 
   /**
@@ -138,6 +142,7 @@ export default class GamePage extends Vue {
    */
   private async trackPlaying(): Promise<void> {
     if (this.$refs.player) {
+      // eslint-disable-next-line no-undef
       const playerState: YT.PlayerState = await this.$refs.player.getPlayerState()
 
       // eslint-disable-next-line no-undef
@@ -149,17 +154,25 @@ export default class GamePage extends Vue {
 
   private minimizeSidebar(): void {
     this.sidebarVisible = false
-    localStorage.setItem(this.sidebarVisibleLocalStorageKey, 'false')
+
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(this.sidebarVisibleLocalStorageKey, 'false')
+    }
   }
 
   private expandSidebar(): void {
     this.sidebarVisible = true
-    localStorage.setItem(this.sidebarVisibleLocalStorageKey, 'true')
+
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(this.sidebarVisibleLocalStorageKey, 'true')
+    }
 
     // Trigger a resize event to auto resize game cards if needed
-    setTimeout(() => {
-      window.dispatchEvent(new Event('resize'))
-    })
+    if (typeof window !== 'undefined') {
+      setTimeout(() => {
+        window.dispatchEvent(new Event('resize'))
+      })
+    }
   }
 
   /**
@@ -167,6 +180,10 @@ export default class GamePage extends Vue {
    * getting from the local storage
    */
   private restoreSidebarVisibility(): void {
+    if (typeof window === 'undefined') {
+      return
+    }
+
     const sidebarVisibleFromLocalStorage: string | null = localStorage.getItem(
       this.sidebarVisibleLocalStorageKey
     )

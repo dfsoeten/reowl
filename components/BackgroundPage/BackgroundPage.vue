@@ -65,8 +65,8 @@ export default class BackgroundPage extends Vue {
    */
   @Watch('$route')
   private setIfVideoMustBeShown(): void {
-    const screenIsLargeEnough: boolean = window.matchMedia('(min-width: 992px)')
-      .matches
+    const screenIsLargeEnough: boolean =
+      window?.matchMedia('(min-width: 992px)').matches ?? false
 
     const mustBeShow: boolean =
       this.$route.name === 'index' && screenIsLargeEnough

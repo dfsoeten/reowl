@@ -2,7 +2,7 @@ import settings from './settings.json'
 import frLocales from './locales/fr.json'
 
 export default {
-  mode: 'spa',
+  ssr: true,
   /*
    ** Headers of the page
    */
@@ -83,9 +83,7 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     // Doc: https://github.com/nuxt-community/svg-module
-    '@nuxtjs/svg',
-    // Doc: https://github.com/pimlie/nuxt-matomo
-    ['nuxt-matomo', settings.matomo]
+    '@nuxtjs/svg'
   ],
   /*
    ** Axios module configuration
@@ -105,15 +103,8 @@ export default {
         test: /\.html$/,
         loader: 'html-loader'
       })
-    }
-  },
-  /*
-   ** TypeScript - Check types
-   */
-  typescript: {
-    typeCheck: {
-      eslint: true
-    }
+    },
+    babel: { compact: true }
   },
   /**
    * Disable automatic inclusion
@@ -122,6 +113,7 @@ export default {
   bootstrapVue: {
     css: false,
     bvCSS: false,
+    icons: false,
     componentPlugins: ['ButtonPlugin', 'LayoutPlugin']
   }
 }
