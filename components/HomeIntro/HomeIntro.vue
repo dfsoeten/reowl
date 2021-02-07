@@ -12,16 +12,6 @@
       {{ descriptionPart2 }}
     </h1>
     <div class="home-intro__alerts">
-      <div
-        v-if="!fullscreenEnabled"
-        class="home-intro__alert home-intro__alert--white-background"
-      >
-        <div>
-          <WarningIcon />
-        </div>
-        <!-- eslint-disable-next-line vue/no-v-html -->
-        <div v-html="$t('homeIntro.optimizedForLaptop')"></div>
-      </div>
       <div class="home-intro__alert home-intro__alert--no-hover">
         <div>
           <HelpIcon />
@@ -34,14 +24,10 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-import screenfull from 'screenfull'
 import HelpIcon from '~/assets/images/icons/help.svg?inline'
-import WarningIcon from '~/assets/images/icons/warning.svg?inline'
 
-@Component({ components: { HelpIcon, WarningIcon } })
+@Component({ components: { HelpIcon } })
 export default class HomeIntro extends Vue {
-  private fullscreenEnabled: boolean = screenfull.isEnabled
-
   private get descriptionPart1() {
     return (this.$t('homeIntro.description') as string).split(
       '[SPOILER-FREE]'
@@ -201,16 +187,6 @@ export default class HomeIntro extends Vue {
             fill: #fff;
           }
         }
-      }
-    }
-
-    &--white-background {
-      background-color: #fff;
-      color: $gray-900;
-      padding: 15px;
-
-      > div:nth-child(1) > svg path {
-        fill: $gray-900;
       }
     }
 
