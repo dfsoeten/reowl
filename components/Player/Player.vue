@@ -18,7 +18,7 @@
       <div v-show="loading" class="placeholder-player"></div>
       <youtube
         ref="youtube"
-        :video-id="game.video.id"
+        :video-id="game.video.providerVideoId"
         :player-vars="playerVars"
         class="youtube-player"
         @ready="handleYoutubePlayerReady"

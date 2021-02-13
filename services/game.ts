@@ -19,7 +19,7 @@ export class Game {
     let response
 
     try {
-      response = await axios.get(`${settings.apiUrl}/games`)
+      response = await axios.get(`${settings.apiUrl}/api/matches`)
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error)
@@ -37,7 +37,8 @@ export class Game {
         ) {
           const game: IGame | null = this.convertToGame(gameFromApi)
 
-          if (game) {
+          // Get only FR cast games for now
+          if (game && game.cast === 'fr_FR') {
             games.push(game)
           }
         }
@@ -61,7 +62,7 @@ export class Game {
     let response
 
     try {
-      response = await axios.get(`${settings.apiUrl}/game/${gameId}`)
+      response = await axios.get(`${settings.apiUrl}/api/matches`)
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error)
@@ -71,7 +72,15 @@ export class Game {
       return null
     }
 
-    const game: IGame | null = this.convertToGame(response.data)
+    const gameFromApi = response.data.find(
+      (game: any) => game.id.toString() === gameId
+    )
+
+    if (!gameFromApi || gameFromApi.length === 0) {
+      return null
+    }
+
+    const game: IGame | null = this.convertToGame(gameFromApi)
 
     return game
   }
@@ -90,12 +99,13 @@ export class Game {
     if (team1 && team2) {
       game = {
         id: gameFromApi.id,
-        date: new Date(gameFromApi.date),
+        publishedAt: new Date(gameFromApi.publishedAt),
+        cast: gameFromApi.cast,
         team1,
         team2,
         video: {
-          id: gameFromApi.video.id,
-          source: gameFromApi.video.source
+          provider: gameFromApi.video.provider,
+          providerVideoId: gameFromApi.video.providerVideoId
         }
       }
     }

@@ -2,12 +2,13 @@ import { ITeam } from '~/types/team'
 
 export interface IGame {
   id: string
-  date: Date
+  publishedAt: Date
+  cast: string
   team1: ITeam
   team2: ITeam
   video: {
-    id: string
-    source: string
+    provider: string
+    providerVideoId: string
   }
 }
 

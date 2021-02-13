@@ -49,7 +49,7 @@ export default class GameCard extends Vue {
   }
 
   private get humanizedDate() {
-    return formatDistanceToNow(this.game.date, { locale: fr })
+    return formatDistanceToNow(this.game.publishedAt, { locale: fr })
   }
 
   @Watch('game', { immediate: true })

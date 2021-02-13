@@ -27,13 +27,13 @@ export const groupGames = (games: IGame[]): IGroupedGames => {
   oneMonthAgo.setHours(0, 0, 0, 0)
 
   games.forEach((game) => {
-    if (game.date >= today) {
+    if (game.publishedAt >= today) {
       groupedGames.today.push(game)
-    } else if (game.date >= yesterday) {
+    } else if (game.publishedAt >= yesterday) {
       groupedGames.yesterday.push(game)
-    } else if (game.date >= oneWeekAgo) {
+    } else if (game.publishedAt >= oneWeekAgo) {
       groupedGames.thisWeek.push(game)
-    } else if (game.date >= oneMonthAgo) {
+    } else if (game.publishedAt >= oneMonthAgo) {
       groupedGames.thisMonth.push(game)
     } else {
       groupedGames.old.push(game)
