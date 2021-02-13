@@ -18,7 +18,7 @@
       <div v-show="loading" class="placeholder-player"></div>
       <youtube
         ref="youtube"
-        :video-id="game.video.providerVideoId"
+        :video-id="match.video.providerVideoId"
         :player-vars="playerVars"
         class="youtube-player"
         @ready="handleYoutubePlayerReady"
@@ -58,7 +58,7 @@ import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 import canAutoPlay from 'can-autoplay'
 import screenfull from 'screenfull'
 import { isTouchScreen } from '~/helpers/touchscreen'
-import { IGame } from '~/types/game'
+import { Match } from '~/types/match'
 import PlayerControls from '~/components/PlayerControls/PlayerControls.vue'
 
 @Component({
@@ -66,9 +66,9 @@ import PlayerControls from '~/components/PlayerControls/PlayerControls.vue'
     PlayerControls
   }
 })
-export default class GamePage extends Vue {
+export default class MatchPage extends Vue {
   @Prop({ type: Object, required: true })
-  private game!: IGame
+  private match!: Match
 
   public $refs!: {
     player: any

@@ -1,11 +1,11 @@
 <template>
-  <div class="game-feed">
-    <h3 v-if="title" class="game-feed__title">
+  <div class="match-feed">
+    <h3 v-if="title" class="match-feed__title">
       {{ title }}
     </h3>
-    <b-row class="game-feed__content">
-      <b-col v-for="game in games" :key="game.id" xs="12" sm="6" lg="12">
-        <GameCard :game="game" />
+    <b-row class="match-feed__content">
+      <b-col v-for="match in matches" :key="match.id" xs="12" sm="6" lg="12">
+        <MatchCard :match="match" />
       </b-col>
     </b-row>
   </div>
@@ -13,21 +13,21 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import GameCard from '~/components/GameCard/GameCard.vue'
-import { IGame } from '~/types/game'
+import MatchCard from '~/components/MatchCard/MatchCard.vue'
+import { Match } from '~/types/match'
 
-@Component({ components: { GameCard } })
-export default class GameFeed extends Vue {
+@Component({ components: { MatchCard } })
+export default class MatchFeed extends Vue {
   @Prop({ type: String })
   private title!: string
 
   @Prop({ type: Array, required: true })
-  private games!: IGame[]
+  private matches!: Match[]
 }
 </script>
 
 <style lang="scss" scoped>
-.game-feed {
+.match-feed {
   &__title {
     color: #fff;
     font-size: 24px;

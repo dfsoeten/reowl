@@ -1,18 +1,18 @@
 <template>
-  <div class="game-list">
-    <template v-for="(gameGroup, index) in groupedGames">
+  <div class="match-list">
+    <template v-for="(matchGroup, index) in groupedMatches">
       <div
-        v-if="gameGroup.length > 0"
+        v-if="matchGroup.length > 0"
         :key="index"
-        class="game-list__game-group"
+        class="match-list__match-group"
       >
-        <h3 class="game-list__game-group-title">
-          {{ $t(`groupedGames.${index}`) }}
+        <h3 class="match-list__match-group-title">
+          {{ $t(`groupedMatches.${index}`) }}
         </h3>
-        <div class="game-list__game-group-content">
+        <div class="match-list__match-group-content">
           <b-row>
-            <b-col v-for="game in gameGroup" :key="game.id" sm="6" lg="4">
-              <GameCard :game="game" lg />
+            <b-col v-for="match in matchGroup" :key="match.id" sm="6" lg="4">
+              <MatchCard :match="match" lg />
             </b-col>
           </b-row>
         </div>
@@ -23,24 +23,24 @@
 
 <script lang="ts">
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
-import { IGame } from '~/types/game'
-import GameCard from '~/components/GameCard/GameCard.vue'
-import { groupGames } from '~/helpers/game'
+import { Match } from '~/types/match'
+import MatchCard from '~/components/MatchCard/MatchCard.vue'
+import { groupMatches } from '~/helpers/match'
 
-@Component({ components: { GameCard } })
-export default class GroupedGamesList extends Vue {
+@Component({ components: { MatchCard } })
+export default class GroupedMatchesList extends Vue {
   @Prop({ type: Array, required: true })
-  private games!: IGame[]
+  private matches!: Match[]
 
-  private gamesData!: IGame[]
+  private matchesData!: Match[]
 
-  private get groupedGames() {
-    return this.gamesData ? groupGames(this.gamesData) : null
+  private get groupedMatches() {
+    return this.matchesData ? groupMatches(this.matchesData) : null
   }
 
-  @Watch('games', { immediate: true })
-  private ongamesChanged() {
-    this.gamesData = this.games
+  @Watch('matches', { immediate: true })
+  private onmatchesChanged() {
+    this.matchesData = this.matches
   }
 }
 </script>
@@ -48,8 +48,8 @@ export default class GroupedGamesList extends Vue {
 <style lang="scss" scoped>
 @import '~/assets/styles/_variables.scss';
 
-.game-list {
-  &__game-group {
+.match-list {
+  &__match-group {
     &-title {
       color: #fff;
       font-size: 20px;

@@ -1,13 +1,13 @@
 <template>
-  <div class="page-content pt-0" :class="{ 'pb-0': !games }">
+  <div class="page-content pt-0" :class="{ 'pb-0': !matches }">
     <b-container>
       <b-row>
         <b-col>
           <HomeIntro />
-          <GroupedGamesList v-if="games" :games="games" />
+          <GroupedMatchesList v-if="matches" :matches="matches" />
           <div v-else class="pb-5 text-center">
             <!-- eslint-disable-next-line vue/no-v-html -->
-            <p v-html="$t('error.gamesNotFound')"></p>
+            <p v-html="$t('error.matchesNotFound')"></p>
             <b-button
               href="https://twitter.com/reowl_fr"
               target="_blank"
@@ -25,10 +25,10 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-import { IGame } from '~/types/game'
-import { Game } from '~/services/game'
+import { Match } from '~/types/match'
+import { MatchService } from '~/services/match'
 import HomeIntro from '~/components/HomeIntro/HomeIntro.vue'
-import GroupedGamesList from '~/components/GroupedGamesList/GroupedGamesList.vue'
+import GroupedMatchesList from '~/components/GroupedMatchesList/GroupedMatchesList.vue'
 
 @Component({
   head() {
@@ -45,11 +45,13 @@ import GroupedGamesList from '~/components/GroupedGamesList/GroupedGamesList.vue
     }
   },
   async asyncData(context) {
-    const games: IGame[] | null = await Game.getLatestGames(context.app.$axios)
+    const matches: Match[] | null = await MatchService.getLatestMatches(
+      context.app.$axios
+    )
 
-    return { games }
+    return { matches }
   },
-  components: { HomeIntro, GroupedGamesList }
+  components: { HomeIntro, GroupedMatchesList }
 })
 export default class IndexPage extends Vue {}
 </script>

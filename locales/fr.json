@@ -14,12 +14,12 @@
     "spoilerFree": "sans spoiler",
     "spoilerFreeHelp": "La durée de la vidéo peut donner des indications sur le déroulement d'un match. Pour cette raison, elle n’est jamais affichée sur Reowl."
   },
-  "game": {
-    "latestGames": "Derniers matchs",
-    "theLatestGames": "Les derniers matchs",
+  "match": {
+    "latestMatches": "Derniers matchs",
+    "theLatestMatches": "Les derniers matchs",
     "vs": "vs"
   },
-  "groupedGames": {
+  "groupedMatches": {
     "today": "Aujourd’hui",
     "yesterday": "Hier",
     "thisWeek": "Cette semaine",
@@ -45,7 +45,7 @@
   "error": {
     "pageNotFound": "Page non trouvée",
     "errorOccurred": "Une erreur s'est produite",
-    "gamesNotFound": "Il semblerait que les derniers matchs soient introuvables. 😢<br /> N'hésites pas à me prévenir via Twitter :"
+    "matchesNotFound": "Il semblerait que les derniers matchs soient introuvables. 😢<br /> N'hésites pas à me prévenir via Twitter :"
   },
   "miscellaneous": {
     "back": "Retour",

@@ -1,4 +1,5 @@
 declare module '*.svg?inline' {
+  // eslint-disable-next-line no-undef
   const content: Vue.Component
   export default content
 }
