@@ -5,7 +5,7 @@
         <b-col>
           <HomeIntro />
           <GroupedGamesList v-if="games" :games="games" />
-          <SeeMoreOnYoutube v-if="games" class="see-more-on-youtube" />
+
         </b-col>
       </b-row>
     </b-container>
@@ -18,7 +18,6 @@ import { IGame } from '~/types/game'
 import { Game } from '~/services/game'
 import HomeIntro from '~/components/HomeIntro/HomeIntro.vue'
 import GroupedGamesList from '~/components/GroupedGamesList/GroupedGamesList.vue'
-import SeeMoreOnYoutube from '~/components/SeeMoreOnYoutube/SeeMoreOnYoutube.vue'
 
 @Component({
   head() {
@@ -39,7 +38,7 @@ import SeeMoreOnYoutube from '~/components/SeeMoreOnYoutube/SeeMoreOnYoutube.vue
 
     return { games }
   },
-  components: { HomeIntro, GroupedGamesList, SeeMoreOnYoutube }
+  components: { HomeIntro, GroupedGamesList }
 })
 export default class IndexPage extends Vue {}
 </script>
