@@ -46,7 +46,8 @@ import GroupedMatchesList from '~/components/GroupedMatchesList/GroupedMatchesLi
   },
   async asyncData(context) {
     const matches: Match[] | null = await MatchService.getLatestMatches(
-      context.app.$axios
+      context.app.$axios,
+      context.store
     )
 
     return { matches }

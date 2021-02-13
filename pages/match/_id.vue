@@ -21,22 +21,24 @@
                   {{ $t('miscellaneous.back') }}
                 </span>
               </b-button>
-              <button
-                v-if="sidebarVisible"
-                :title="$t('miscellaneous.hide')"
-                class="match-page__btn-minimize-sidebar d-none d-lg-block"
-                @click="minimizeSidebar"
-              >
-                <MinimizeIcon />
-              </button>
-              <button
-                v-else
-                :title="$t('miscellaneous.expand')"
-                class="match-page__btn-expand-sidebar d-none d-lg-block"
-                @click="expandSidebar"
-              >
-                <MinimizeIcon />
-              </button>
+              <div v-show="latestMatches.length > 0">
+                <button
+                  v-if="sidebarVisible"
+                  :title="$t('miscellaneous.hide')"
+                  class="match-page__btn-minimize-sidebar d-none d-lg-block"
+                  @click="minimizeSidebar"
+                >
+                  <MinimizeIcon />
+                </button>
+                <button
+                  v-else
+                  :title="$t('miscellaneous.expand')"
+                  class="match-page__btn-expand-sidebar d-none d-lg-block"
+                  @click="expandSidebar"
+                >
+                  <MinimizeIcon />
+                </button>
+              </div>
             </div>
             <div class="match-page__subheader">
               <h1 class="match-page__title">
@@ -100,15 +102,19 @@ import MinimizeIcon from '~/assets/images/icons/minimize.svg?inline'
   async asyncData(context) {
     const match: Match | null = await MatchService.getMatch(
       context.app.$axios,
+      context.store,
       context.params.id
     )
 
     if (match) {
       const latestMatches:
         | Match[]
-        | null = await MatchService.getLatestMatches(context.app.$axios, 5, [
-        match.id
-      ])
+        | null = await MatchService.getLatestMatches(
+        context.app.$axios,
+        context.store,
+        5,
+        [match.id]
+      )
       return { match, latestMatches }
     } else {
       context.error({
@@ -133,8 +139,14 @@ export default class MatchPage extends Vue {
     player: any
   }
 
+  public latestMatches!: Match[]
+
   private created(): void {
-    this.restoreSidebarVisibility()
+    if (this.latestMatches.length === 0) {
+      this.sidebarVisible = false
+    } else {
+      this.restoreSidebarVisibility()
+    }
   }
 
   private mounted(): void {

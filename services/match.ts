@@ -1,4 +1,5 @@
 import { NuxtAxiosInstance } from '@nuxtjs/axios'
+import { Store } from 'vuex'
 import settings from '~/settings.json'
 import { Match } from '~/types/match'
 import { Team } from '~/types/team'
@@ -13,44 +14,64 @@ export class MatchService {
    */
   public static async getLatestMatches(
     axios: NuxtAxiosInstance,
+    store: Store<any>,
     limit?: number,
     matchIdsToExclude?: string[]
   ): Promise<Match[] | null> {
-    let response
+    let latestMatches: Match[]
 
-    try {
-      response = await axios.get(`${settings.apiUrl}/api/matches`)
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error)
+    store.commit('CHECK_IF_LATEST_MATCH_UPDATE_IS_REQUIRED')
+
+    // Get the latest matches from the store
+    // to prevent too much call to the API
+    if (store.getters.latestMatches.length > 0) {
+      latestMatches = store.getters.latestMatches
     }
+    // Else, call the API
+    else {
+      let response
 
-    if (!response || response.status !== 200) {
-      return null
-    }
+      try {
+        response = await axios.get(`${settings.apiUrl}/api/matches`)
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error(error)
+      }
 
-    const latestMatches: Match[] = response.data.reduce(
-      (matches: Match[], matchFromApi: any) => {
-        if (
-          !matchIdsToExclude ||
-          !matchIdsToExclude.some(
-            (matchId: string) => matchId === matchFromApi.id
-          )
-        ) {
+      if (!response || response.status !== 200) {
+        return null
+      }
+
+      latestMatches = response.data.reduce(
+        (matches: Match[], matchFromApi: any) => {
           const match: Match | null = this.convertToMatch(matchFromApi)
 
           // Get only FR cast matches for now
           if (match && match.cast === 'fr_FR') {
             matches.push(match)
           }
-        }
 
-        return matches
-      },
-      []
-    )
+          return matches
+        },
+        []
+      )
 
-    return limit ? latestMatches.splice(0, limit) : latestMatches
+      store.commit('CHANGE_LATEST_MATCHES', latestMatches)
+    }
+
+    // Matches to exclude
+    if (matchIdsToExclude) {
+      latestMatches = latestMatches.filter(
+        (match) => !matchIdsToExclude.some((matchId) => matchId === match.id)
+      )
+    }
+
+    // Limit
+    if (limit) {
+      latestMatches = latestMatches.splice(0, limit)
+    }
+
+    return latestMatches
   }
 
   /**
@@ -59,32 +80,18 @@ export class MatchService {
    */
   public static async getMatch(
     axios: NuxtAxiosInstance,
+    store: Store<any>,
     matchId: string
   ): Promise<Match | null> {
-    let response
+    const latestMatches = await this.getLatestMatches(axios, store)
 
-    try {
-      response = await axios.get(`${settings.apiUrl}/api/matches`)
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error)
-    }
-
-    if (!response || response.status !== 200) {
+    if (!latestMatches) {
       return null
     }
 
-    const matchFromApi = response.data.find(
-      (match: any) => match.id.toString() === matchId
+    return (
+      latestMatches.find((match) => match.id.toString() === matchId) || null
     )
-
-    if (!matchFromApi || matchFromApi.length === 0) {
-      return null
-    }
-
-    const match: Match | null = this.convertToMatch(matchFromApi)
-
-    return match
   }
 
   /**
