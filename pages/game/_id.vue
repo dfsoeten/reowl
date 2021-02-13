@@ -6,7 +6,7 @@
     <b-container>
       <b-row>
         <b-col sm="12" :lg="sidebarVisible ? 9 : 12" class="mb-4 mb-lg-0">
-          <div class="game-page__main">
+          <div v-if="game" class="game-page__main">
             <div class="game-page__header">
               <b-button
                 :to="{
@@ -99,13 +99,18 @@ import MinimizeIcon from '~/assets/images/icons/minimize.svg?inline'
       context.params.id
     )
 
-    const latestGames: IGame[] | null = await Game.getLatestGames(
-      context.app.$axios,
-      5,
-      game ? [game.id] : undefined
-    )
-
-    return { game, latestGames }
+    if (game) {
+      const latestGames: IGame[] | null = await Game.getLatestGames(
+        context.app.$axios,
+        5,
+        [game.id]
+      )
+      return { game, latestGames }
+    } else {
+      context.error({
+        statusCode: 404
+      })
+    }
   },
   components: { ArrowThinLeftIcon, GameFeed, MinimizeIcon, Player, TwitterCard }
 })
