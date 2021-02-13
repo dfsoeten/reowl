@@ -5,7 +5,18 @@
         <b-col>
           <HomeIntro />
           <GroupedGamesList v-if="games" :games="games" />
-
+          <div v-else class="pb-5 text-center">
+            <!-- eslint-disable-next-line vue/no-v-html -->
+            <p v-html="$t('error.gamesNotFound')"></p>
+            <b-button
+              href="https://twitter.com/reowl_fr"
+              target="_blank"
+              pill
+              variant="light"
+            >
+              @reowl_fr
+            </b-button>
+          </div>
         </b-col>
       </b-row>
     </b-container>

@@ -44,7 +44,8 @@
   },
   "error": {
     "pageNotFound": "Page non trouvée",
-    "errorOccurred": "Une erreur s'est produite"
+    "errorOccurred": "Une erreur s'est produite",
+    "gamesNotFound": "Il semblerait que les derniers matchs soient introuvables. 😢<br /> N'hésites pas à me prévenir via Twitter :"
   },
   "miscellaneous": {
     "back": "Retour",
