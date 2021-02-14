@@ -45,9 +45,13 @@
                 {{ match.team1.name }} {{ $t('match.vs') }}
                 {{ match.team2.name }}
                 <span
+                  class="match-page__cast-flag"
                   :title="`${$t('match.cast')} ${match.cast.toUpperCase()}`"
                 >
-                  {{ castFlag }}
+                  <img
+                    :src="castSvgFlag"
+                    :alt="`${$t('match.cast')} ${match.cast.toUpperCase()}`"
+                  />
                 </span>
               </h1>
             </div>
@@ -77,7 +81,7 @@ import { Vue, Component } from 'vue-property-decorator'
 import settings from '~/settings.json'
 import { Match } from '~/types/match'
 import { MatchService } from '~/services/match'
-import { getCastFlag } from '~/utils/cast'
+import { getCastSvgFlag } from '~/utils/cast'
 import MatchFeed from '~/components/MatchFeed/MatchFeed.vue'
 import Player from '~/components/Player/Player.vue'
 import TwitterCard from '~/components/TwitterCard/TwitterCard.vue'
@@ -168,8 +172,8 @@ export default class MatchPage extends Vue {
     }
   }
 
-  private get castFlag() {
-    return getCastFlag(this.match.cast)
+  private get castSvgFlag() {
+    return getCastSvgFlag(this.match.cast)
   }
 
   /**
@@ -262,6 +266,14 @@ export default class MatchPage extends Vue {
 
     @include media-breakpoint-up(xl) {
       font-size: 34px;
+    }
+  }
+
+  &__cast-flag {
+    > img {
+      height: 24px;
+      margin-left: 5px;
+      width: 24px;
     }
   }
 

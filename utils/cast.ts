@@ -1,15 +1,15 @@
-export const getCastFlag = (cast: string) => {
+export const getCastSvgFlag = (cast: string) => {
   let flag
 
   switch (cast) {
     case 'en-us':
-      flag = '🇺🇸'
+      flag = require('~/assets/images/icons/flags/usa.svg')
       break
     case 'fr-fr':
-      flag = '🇫🇷'
+      flag = require('~/assets/images/icons/flags/france.svg')
       break
     default:
-      flag = '🇺🇸'
+      flag = require('~/assets/images/icons/flags/usa.svg')
   }
 
   return flag
