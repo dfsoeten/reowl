@@ -4,7 +4,10 @@
       <b-row>
         <b-col>
           <HomeIntro />
-          <GroupedMatchesList v-if="matches" :matches="matches" />
+          <GroupedMatchesList
+            v-if="matches.length > 0 || loading"
+            :matches="matches"
+          />
           <div v-else class="pb-5 text-center">
             <!-- eslint-disable-next-line vue/no-v-html -->
             <p v-html="$t('error.matchesNotFound')"></p>
@@ -44,31 +47,19 @@ import GroupedMatchesList from '~/components/GroupedMatchesList/GroupedMatchesLi
       ]
     }
   },
-  async asyncData(context) {
-    const matches: Match[] | null = await MatchService.getLatestMatches(
-      context.app.$axios,
-      context.store
-    )
-
-    return { matches }
-  },
   components: { HomeIntro, GroupedMatchesList }
 })
-export default class IndexPage extends Vue {}
-</script>
+export default class IndexPage extends Vue {
+  public matches: Match[] = []
 
-<style lang="scss" scoped>
-@import '~/assets/styles/_variables.scss';
+  public loading = true
 
-.see-more-on-youtube {
-  margin: 20px 0 5px 0;
+  async created() {
+    try {
+      this.matches = await MatchService.getLatestMatches(this.$axios, 24)
+    } catch (error) {}
 
-  @include media-breakpoint-up(md) {
-    margin-top: 30px;
-  }
-
-  @include media-breakpoint-up(xl) {
-    margin: 55px 0 25px 0;
+    this.loading = false
   }
 }
-</style>
+</script>

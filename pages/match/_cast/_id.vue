@@ -44,6 +44,11 @@
               <h1 class="match-page__title">
                 {{ match.team1.name }} {{ $t('match.vs') }}
                 {{ match.team2.name }}
+                <span
+                  :title="`${$t('match.cast')} ${match.cast.toUpperCase()}`"
+                >
+                  {{ castFlag }}
+                </span>
               </h1>
             </div>
             <Player
@@ -72,6 +77,7 @@ import { Vue, Component } from 'vue-property-decorator'
 import settings from '~/settings.json'
 import { Match } from '~/types/match'
 import { MatchService } from '~/services/match'
+import { getCastFlag } from '~/utils/cast'
 import MatchFeed from '~/components/MatchFeed/MatchFeed.vue'
 import Player from '~/components/Player/Player.vue'
 import TwitterCard from '~/components/TwitterCard/TwitterCard.vue'
@@ -102,19 +108,16 @@ import MinimizeIcon from '~/assets/images/icons/minimize.svg?inline'
   async asyncData(context) {
     const match: Match | null = await MatchService.getMatch(
       context.app.$axios,
-      context.store,
+      context.params.cast,
       context.params.id
     )
 
     if (match) {
       const latestMatches:
         | Match[]
-        | null = await MatchService.getLatestMatches(
-        context.app.$axios,
-        context.store,
-        5,
-        [match.id]
-      )
+        | null = await MatchService.getLatestMatches(context.app.$axios, 5, [
+        match
+      ])
       return { match, latestMatches }
     } else {
       context.error({
@@ -139,6 +142,8 @@ export default class MatchPage extends Vue {
     player: any
   }
 
+  public match!: Match
+
   public latestMatches!: Match[]
 
   private created(): void {
@@ -161,6 +166,10 @@ export default class MatchPage extends Vue {
     if (typeof window !== 'undefined') {
       window.clearInterval(this.playTrackingInterval)
     }
+  }
+
+  private get castFlag() {
+    return getCastFlag(this.match.cast)
   }
 
   /**

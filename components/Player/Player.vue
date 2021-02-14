@@ -18,7 +18,7 @@
       <div v-show="loading" class="placeholder-player"></div>
       <youtube
         ref="youtube"
-        :video-id="match.video.providerVideoId"
+        :video-id="match.youtubeVideoId"
         :player-vars="playerVars"
         class="youtube-player"
         @ready="handleYoutubePlayerReady"
@@ -57,7 +57,7 @@
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 import canAutoPlay from 'can-autoplay'
 import screenfull from 'screenfull'
-import { isTouchScreen } from '~/helpers/touchscreen'
+import { isTouchScreen } from '~/utils/touchscreen'
 import { Match } from '~/types/match'
 import PlayerControls from '~/components/PlayerControls/PlayerControls.vue'
 
