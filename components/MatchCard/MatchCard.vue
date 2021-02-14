@@ -3,9 +3,12 @@
     <nuxt-link
       ref="matchCardInner"
       :to="{
-        name: 'match-id',
-        params: { id: `${matchData.id}` }
+        name: 'match-cast-id',
+        params: { cast: `${matchData.cast}`, id: `${matchData.id}` }
       }"
+      :title="`${matchData.team1.name} ${$t('match.vs')} ${
+        matchData.team2.name
+      } / ${$t('match.cast')} ${match.cast.toUpperCase()}`"
       class="match-card__inner"
     >
       <div
@@ -23,6 +26,9 @@
       <div class="match-card__vs">
         {{ $t('match.vs') }}
       </div>
+      <div class="match-card__cast">
+        {{ castFlag }}
+      </div>
     </nuxt-link>
 
     <div class="match-card__footer">
@@ -35,6 +41,7 @@
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 import { formatDistanceToNow } from 'date-fns'
 import { fr } from 'date-fns/locale'
+import { getCastFlag } from '~/utils/cast'
 import { Match } from '~/types/match'
 
 @Component
@@ -46,6 +53,10 @@ export default class MatchCard extends Vue {
 
   public $refs!: {
     matchCardInner: any
+  }
+
+  private get castFlag() {
+    return getCastFlag(this.match.cast)
   }
 
   private get humanizedDate() {
@@ -115,6 +126,18 @@ export default class MatchCard extends Vue {
     transform: translate(-50%, -50%);
   }
 
+  &__cast {
+    background-color: darken($gray-900, 10%);
+    border-radius: 10px 0 0 0;
+    bottom: 0;
+    color: #fff;
+    font-size: 20px;
+    right: 0;
+    padding: 5px 10px 3px 8px;
+    position: absolute;
+    text-transform: uppercase;
+  }
+
   &__footer {
     color: #fff;
     font-size: 15px;
@@ -127,6 +150,10 @@ export default class MatchCard extends Vue {
   }
 
   &[lg] {
+    #{$self}__cast {
+      font-size: 24px;
+    }
+
     #{$self}__footer {
       @include media-breakpoint-up(xl) {
         margin-top: 15px;

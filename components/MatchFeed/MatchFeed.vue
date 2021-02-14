@@ -4,7 +4,13 @@
       {{ title }}
     </h3>
     <b-row class="match-feed__content">
-      <b-col v-for="match in matches" :key="match.id" xs="12" sm="6" lg="12">
+      <b-col
+        v-for="match in matches"
+        :key="`${match.cast}_${match.id}`"
+        xs="12"
+        sm="6"
+        lg="12"
+      >
         <MatchCard :match="match" />
       </b-col>
     </b-row>

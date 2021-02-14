@@ -17,7 +17,8 @@
   "match": {
     "latestMatches": "Derniers matchs",
     "theLatestMatches": "Les derniers matchs",
-    "vs": "vs"
+    "vs": "vs",
+    "cast": "Cast"
   },
   "groupedMatches": {
     "today": "Aujourd’hui",
@@ -54,6 +55,7 @@
     "developpedWithLoveBy": "Développé avec ❤ par",
     "hide": "Masquer",
     "expand": "Développer",
-    "readMore": "En savoir plus"
+    "readMore": "En savoir plus",
+    "loading": "Chargement"
   }
 }

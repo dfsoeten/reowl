@@ -6,10 +6,7 @@ export interface Match {
   cast: string
   team1: Team
   team2: Team
-  video: {
-    provider: string
-    providerVideoId: string
-  }
+  youtubeVideoId?: string
 }
 
 export interface GroupedMatches {
