@@ -1,140 +1,140 @@
 [
   {
     "name": "Atlanta Reign",
-    "slug": "atlanta-reign",
+    "slug": "ATL",
     "colors": {
       "secondary": "#c4c4c4"
     }
   },
   {
     "name": "Boston Uprising",
-    "slug": "boston-uprising",
+    "slug": "BOS",
     "colors": {
       "secondary": "#174b97"
     }
   },
   {
     "name": "Chengdu Hunters",
-    "slug": "chengdu-hunters",
+    "slug": "CDH",
     "colors": {
       "secondary": "#ffa000"
     }
   },
   {
     "name": "Dallas Fuel",
-    "slug": "dallas-fuel",
+    "slug": "DAL",
     "colors": {
       "secondary": "#032340"
     }
   },
   {
     "name": "Florida Mayhem",
-    "slug": "florida-mayhem",
+    "slug": "FLA",
     "colors": {
       "secondary": "#000000"
     }
   },
   {
     "name": "Guangzhou Charge",
-    "slug": "guangzhou-charge",
+    "slug": "GZH",
     "colors": {
       "secondary": "#122c42"
     }
   },
   {
     "name": "Hangzhou Spark",
-    "slug": "hangzhou-spark",
+    "slug": "HZS",
     "colors": {
       "secondary": "#fb7299"
     }
   },
   {
     "name": "Houston Outlaws",
-    "slug": "houston-outlaws",
+    "slug": "HOU",
     "colors": {
       "secondary": "#97d700"
     }
   },
   {
     "name": "London Spitfire",
-    "slug": "london-spitfire",
+    "slug": "LDN",
     "colors": {
       "secondary": "#59cbe8"
     }
   },
   {
     "name": "Los Angeles Gladiators",
-    "slug": "los-angeles-gladiators",
+    "slug": "GLA",
     "colors": {
       "secondary": "#3c1053"
     }
   },
   {
     "name": "Los Angeles Valiant",
-    "slug": "los-angeles-valiant",
+    "slug": "VAL",
     "colors": {
       "secondary": "#1888c6"
     }
   },
   {
     "name": "New York Excelsior",
-    "slug": "new-york-excelsior",
+    "slug": "NYE",
     "colors": {
       "secondary": "#171c38"
     }
   },
   {
     "name": "Paris Eternal",
-    "slug": "paris-eternal",
+    "slug": "PAR",
     "colors": {
       "secondary": "#303d56"
     }
   },
   {
     "name": "Philadelphia Fusion",
-    "slug": "philadelphia-fusion",
+    "slug": "PHI",
     "colors": {
       "secondary": "#000000"
     }
   },
   {
     "name": "San Francisco Shock",
-    "slug": "san-francisco-shock",
+    "slug": "SFS",
     "colors": {
       "secondary": "#000000"
     }
   },
   {
     "name": "Seoul Dynasty",
-    "slug": "seoul-dynasty",
+    "slug": "SEO",
     "colors": {
       "secondary": "#000000"
     }
   },
   {
     "name": "Shanghai Dragons",
-    "slug": "shanghai-dragons",
+    "slug": "SHD",
     "colors": {
       "secondary": "#d22630"
     }
   },
   {
     "name": "Toronto Defiant",
-    "slug": "toronto-defiant",
+    "slug": "TOR",
     "colors": {
       "secondary": "#000000"
     }
   },
   {
     "name": "Vancouver Titans",
-    "slug": "vancouver-titans",
+    "slug": "VAN",
     "colors": {
       "secondary": "#09226b"
     }
   },
   {
     "name": "Washington Justice",
-    "slug": "washington-justice",
+    "slug": "WAS",
     "colors": {
       "secondary": "#990034"
     }

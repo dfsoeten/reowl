@@ -1,7 +1,6 @@
 {
   "websiteUrl": "https://www.reowl.fr",
-  "apiUrl": "https://api.reowl.fr",
+  "apiUrl": "https://reowl-api.vercel.app",
   "googleAnalytics": { "id": "UA-163933218-1" },
-  "owlFrYoutubeChannelId": "UCI45pR3yMi0uGE47ewT43Ow",
   "localStoragePrefix": "reowl"
 }

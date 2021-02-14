@@ -103,7 +103,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Latest games list (from the OWL FR Youtube channel)
+- Latest matches list (from the OWL FR Youtube channel)
 - Video player without progress bar & custom controls
 - Video background on the front page
 - Legal notices page

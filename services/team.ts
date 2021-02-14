@@ -1,14 +1,14 @@
 import teams from '~/data/teams.json'
-import { ITeam } from '~/types/team'
+import { Team } from '~/types/team'
 
-export class Team {
+export class TeamService {
   /**
    * Get team data (logo, ...)
    * @param {string} teamSlug
-   * @returns {ITeam}
+   * @returns {Team}
    */
-  public static getTeam(teamSlug: string): ITeam | null {
-    const team: ITeam | undefined = teams.find((team) => team.slug === teamSlug)
+  public static getTeam(teamSlug: string): Team | null {
+    const team: Team | undefined = teams.find((team) => team.slug === teamSlug)
 
     if (!team) {
       return null
