@@ -1,31 +1,40 @@
 <template>
-  <div v-if="game" class="game-card">
+  <div v-if="match" class="match-card">
     <nuxt-link
-      ref="gameCardInner"
+      ref="matchCardInner"
       :to="{
-        name: 'game-id',
-        params: { id: `${gameData.id}` }
+        name: 'match-cast-id',
+        params: { cast: `${matchData.cast}`, id: `${matchData.id}` }
       }"
-      class="game-card__inner"
+      :title="`${matchData.team1.name} ${$t('match.vs')} ${
+        matchData.team2.name
+      } / ${$t('match.cast')} ${match.cast.toUpperCase()}`"
+      class="match-card__inner"
     >
       <div
-        class="game-card__team"
-        :style="`background-color: ${gameData.team1.colors.secondary};`"
+        class="match-card__team"
+        :style="`background-color: ${matchData.team1.colors.secondary};`"
       >
-        <img v-if="gameData.team1.logo" :src="gameData.team1.logo" />
+        <img v-if="matchData.team1.logo" :src="matchData.team1.logo" />
       </div>
       <div
-        class="game-card__team"
-        :style="`background-color: ${gameData.team2.colors.secondary};`"
+        class="match-card__team"
+        :style="`background-color: ${matchData.team2.colors.secondary};`"
       >
-        <img v-if="gameData.team2.logo" :src="gameData.team2.logo" />
+        <img v-if="matchData.team2.logo" :src="matchData.team2.logo" />
       </div>
-      <div class="game-card__vs">
-        {{ $t('game.vs') }}
+      <div class="match-card__vs">
+        {{ $t('match.vs') }}
+      </div>
+      <div class="match-card__cast-flag">
+        <img
+          :src="castSvgFlag"
+          :alt="`${$t('match.cast')} ${match.cast.toUpperCase()}`"
+        />
       </div>
     </nuxt-link>
 
-    <div class="game-card__footer">
+    <div class="match-card__footer">
       {{ $t('miscellaneous.thereIs') }} {{ humanizedDate }}
     </div>
   </div>
@@ -35,26 +44,31 @@
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 import { formatDistanceToNow } from 'date-fns'
 import { fr } from 'date-fns/locale'
-import { IGame } from '~/types/game'
+import { getCastSvgFlag } from '~/utils/cast'
+import { Match } from '~/types/match'
 
 @Component
-export default class GameCard extends Vue {
+export default class MatchCard extends Vue {
   @Prop({ type: Object, required: true })
-  private game!: IGame
+  private match!: Match
 
-  private gameData!: IGame
+  private matchData!: Match
 
   public $refs!: {
-    gameCardInner: any
+    matchCardInner: any
+  }
+
+  private get castSvgFlag() {
+    return getCastSvgFlag(this.match.cast)
   }
 
   private get humanizedDate() {
-    return formatDistanceToNow(this.game.date, { locale: fr })
+    return formatDistanceToNow(this.match.publishedAt, { locale: fr })
   }
 
-  @Watch('game', { immediate: true })
-  private onGameChanged() {
-    this.gameData = this.game
+  @Watch('match', { immediate: true })
+  private onMatchChanged() {
+    this.matchData = this.match
   }
 }
 </script>
@@ -62,7 +76,7 @@ export default class GameCard extends Vue {
 <style lang="scss" scoped>
 @import '~/assets/styles/_variables.scss';
 
-.game-card {
+.match-card {
   $self: &;
 
   > a {
@@ -113,6 +127,20 @@ export default class GameCard extends Vue {
     position: absolute;
     top: 50%;
     transform: translate(-50%, -50%);
+  }
+
+  &__cast-flag {
+    background-color: darken($gray-900, 10%);
+    border-radius: 10px 0 0 0;
+    bottom: 0;
+    right: 0;
+    padding: 7px 12px 10px 10px;
+    position: absolute;
+
+    > img {
+      height: 24px;
+      width: 24px;
+    }
   }
 
   &__footer {

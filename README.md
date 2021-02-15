@@ -25,25 +25,11 @@ I'm using the [GitFlow](https://nvie.com/posts/a-successful-git-branching-model/
 
 `npm run dev`
 
-## Build the website for production
+## Deploy to production
 
-`npm run generate`
+[Vercel](https://vercel.com) is used to build, deploy & host the website.
 
-## Deploy to preprod/production
-
-GitHub Actions is used to build & deploy the website with GitFlow.
-
-### Deploy to preprod:
-
-Push to a `release/*-*-*` branch
-
-URL: [https://preprod.reowl.fr](https://preprod.reowl.fr)
-
-### Deploy to production:
-
-Push to the `master` branch
-
-URL: [https://www.reowl.fr](https://www.reowl.fr)
+You just have to push to the `master` branch.
 
 ## Find and fix problems in the JavaScript code
 
@@ -55,4 +41,4 @@ URL: [https://www.reowl.fr](https://www.reowl.fr)
 
 ## Feedback
 
-If you have any question/suggestion/bug, please feel free to create an issue or email me.
+If you have any question/suggestion/bug, please feel free to create an issue.

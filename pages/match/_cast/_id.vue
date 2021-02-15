@@ -1,13 +1,13 @@
 <template>
   <div
-    class="game-page page-content"
+    class="match-page page-content"
     :class="{ 'sidebar-visible': sidebarVisible }"
   >
     <b-container>
       <b-row>
         <b-col sm="12" :lg="sidebarVisible ? 9 : 12" class="mb-4 mb-lg-0">
-          <div class="game-page__main">
-            <div class="game-page__header">
+          <div v-if="match" class="match-page__main">
+            <div class="match-page__header">
               <b-button
                 :to="{
                   name: 'index'
@@ -21,39 +21,54 @@
                   {{ $t('miscellaneous.back') }}
                 </span>
               </b-button>
-              <button
-                v-if="sidebarVisible"
-                :title="$t('miscellaneous.hide')"
-                class="game-page__btn-minimize-sidebar d-none d-lg-block"
-                @click="minimizeSidebar"
-              >
-                <MinimizeIcon />
-              </button>
-              <button
-                v-else
-                :title="$t('miscellaneous.expand')"
-                class="game-page__btn-expand-sidebar d-none d-lg-block"
-                @click="expandSidebar"
-              >
-                <MinimizeIcon />
-              </button>
+              <div v-show="latestMatches.length > 0">
+                <button
+                  v-if="sidebarVisible"
+                  :title="$t('miscellaneous.hide')"
+                  class="match-page__btn-minimize-sidebar d-none d-lg-block"
+                  @click="minimizeSidebar"
+                >
+                  <MinimizeIcon />
+                </button>
+                <button
+                  v-else
+                  :title="$t('miscellaneous.expand')"
+                  class="match-page__btn-expand-sidebar d-none d-lg-block"
+                  @click="expandSidebar"
+                >
+                  <MinimizeIcon />
+                </button>
+              </div>
             </div>
-            <div class="game-page__subheader">
-              <h1 class="game-page__title">
-                {{ game.team1.name }} {{ $t('game.vs') }} {{ game.team2.name }}
+            <div class="match-page__subheader">
+              <h1 class="match-page__title">
+                {{ match.team1.name }} {{ $t('match.vs') }}
+                {{ match.team2.name }}
+                <span
+                  class="match-page__cast-flag"
+                  :title="`${$t('match.cast')} ${match.cast.toUpperCase()}`"
+                >
+                  <img
+                    :src="castSvgFlag"
+                    :alt="`${$t('match.cast')} ${match.cast.toUpperCase()}`"
+                  />
+                </span>
               </h1>
             </div>
             <Player
               ref="player"
-              :game="game"
-              class="game-page__player mb-3 mb-lg-5"
+              :match="match"
+              class="match-page__player mb-3 mb-lg-5"
             />
             <TwitterCard />
           </div>
         </b-col>
         <b-col sm="12" lg="3" :class="{ 'd-block d-lg-none': !sidebarVisible }">
-          <div class="game-page__sidebar">
-            <GameFeed :title="$t('game.latestGames')" :games="latestGames" />
+          <div class="match-page__sidebar">
+            <MatchFeed
+              :title="$t('match.latestMatches')"
+              :matches="latestMatches"
+            />
           </div>
         </b-col>
       </b-row>
@@ -64,9 +79,10 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import settings from '~/settings.json'
-import { IGame } from '~/types/game'
-import { Game } from '~/services/game'
-import GameFeed from '~/components/GameFeed/GameFeed.vue'
+import { Match } from '~/types/match'
+import { MatchService } from '~/services/match'
+import { getCastSvgFlag } from '~/utils/cast'
+import MatchFeed from '~/components/MatchFeed/MatchFeed.vue'
 import Player from '~/components/Player/Player.vue'
 import TwitterCard from '~/components/TwitterCard/TwitterCard.vue'
 import ArrowThinLeftIcon from '~/assets/images/icons/arrow-thin-left.svg?inline'
@@ -78,9 +94,9 @@ import MinimizeIcon from '~/assets/images/icons/minimize.svg?inline'
   },
   head() {
     // @ts-ignore
-    const team1Name: string = this.game?.team1.name
+    const team1Name: string = this.match?.team1.name
     // @ts-ignore
-    const team2Name: string = this.game?.team2.name
+    const team2Name: string = this.match?.team2.name
 
     return {
       title:
@@ -88,38 +104,58 @@ import MinimizeIcon from '~/assets/images/icons/minimize.svg?inline'
         ' - ' +
         team1Name +
         ' ' +
-        this.$t('game.vs') +
+        this.$t('match.vs') +
         ' ' +
         team2Name
     }
   },
   async asyncData(context) {
-    const game: IGame | null = await Game.getGame(
+    const match: Match | null = await MatchService.getMatch(
       context.app.$axios,
+      context.params.cast,
       context.params.id
     )
 
-    const latestGames: IGame[] | null = await Game.getLatestGames(
-      context.app.$axios,
-      5,
-      game ? [game.id] : undefined
-    )
-
-    return { game, latestGames }
+    if (match) {
+      const latestMatches:
+        | Match[]
+        | null = await MatchService.getLatestMatches(context.app.$axios, 5, [
+        match
+      ])
+      return { match, latestMatches }
+    } else {
+      context.error({
+        statusCode: 404
+      })
+    }
   },
-  components: { ArrowThinLeftIcon, GameFeed, MinimizeIcon, Player, TwitterCard }
+  components: {
+    ArrowThinLeftIcon,
+    MatchFeed,
+    MinimizeIcon,
+    Player,
+    TwitterCard
+  }
 })
-export default class GamePage extends Vue {
+export default class MatchPage extends Vue {
   private sidebarVisible: boolean = true
-  private sidebarVisibleLocalStorageKey: string = `${settings.localStoragePrefix}-game-page-sidebar-visible`
+  private sidebarVisibleLocalStorageKey: string = `${settings.localStoragePrefix}-match-page-sidebar-visible`
   private playTrackingInterval!: number
 
   public $refs!: {
     player: any
   }
 
+  public match!: Match
+
+  public latestMatches!: Match[]
+
   private created(): void {
-    this.restoreSidebarVisibility()
+    if (this.latestMatches.length === 0) {
+      this.sidebarVisible = false
+    } else {
+      this.restoreSidebarVisibility()
+    }
   }
 
   private mounted(): void {
@@ -134,6 +170,10 @@ export default class GamePage extends Vue {
     if (typeof window !== 'undefined') {
       window.clearInterval(this.playTrackingInterval)
     }
+  }
+
+  private get castSvgFlag() {
+    return getCastSvgFlag(this.match.cast)
   }
 
   /**
@@ -167,7 +207,7 @@ export default class GamePage extends Vue {
       localStorage.setItem(this.sidebarVisibleLocalStorageKey, 'true')
     }
 
-    // Trigger a resize event to auto resize game cards if needed
+    // Trigger a resize event to auto resize match cards if needed
     if (typeof window !== 'undefined') {
       setTimeout(() => {
         window.dispatchEvent(new Event('resize'))
@@ -199,7 +239,7 @@ export default class GamePage extends Vue {
 <style lang="scss" scoped>
 @import '~/assets/styles/_variables.scss';
 
-.game-page {
+.match-page {
   &__main {
     @include media-breakpoint-up(xl) {
       padding-right: 25px;
@@ -226,6 +266,14 @@ export default class GamePage extends Vue {
 
     @include media-breakpoint-up(xl) {
       font-size: 34px;
+    }
+  }
+
+  &__cast-flag {
+    > img {
+      height: 24px;
+      margin-left: 5px;
+      width: 24px;
     }
   }
 
@@ -272,7 +320,7 @@ export default class GamePage extends Vue {
 <style lang="scss">
 @import '~/assets/styles/_variables.scss';
 
-.game-page {
+.match-page {
   .player:not(.fullscreen) {
     iframe.youtube-player,
     .placeholder-player {

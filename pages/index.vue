@@ -1,11 +1,25 @@
 <template>
-  <div class="page-content pt-0" :class="{ 'pb-0': !games }">
+  <div class="page-content pt-0" :class="{ 'pb-0': !matches }">
     <b-container>
       <b-row>
         <b-col>
           <HomeIntro />
-          <GroupedGamesList v-if="games" :games="games" />
-          <SeeMoreOnYoutube v-if="games" class="see-more-on-youtube" />
+          <GroupedMatchesList
+            v-if="matches.length > 0 || loading"
+            :matches="matches"
+          />
+          <div v-else class="pb-5 text-center">
+            <!-- eslint-disable-next-line vue/no-v-html -->
+            <p v-html="$t('error.matchesNotFound')"></p>
+            <b-button
+              href="https://twitter.com/reowl_fr"
+              target="_blank"
+              pill
+              variant="light"
+            >
+              @reowl_fr
+            </b-button>
+          </div>
         </b-col>
       </b-row>
     </b-container>
@@ -14,11 +28,10 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-import { IGame } from '~/types/game'
-import { Game } from '~/services/game'
+import { Match } from '~/types/match'
+import { MatchService } from '~/services/match'
 import HomeIntro from '~/components/HomeIntro/HomeIntro.vue'
-import GroupedGamesList from '~/components/GroupedGamesList/GroupedGamesList.vue'
-import SeeMoreOnYoutube from '~/components/SeeMoreOnYoutube/SeeMoreOnYoutube.vue'
+import GroupedMatchesList from '~/components/GroupedMatchesList/GroupedMatchesList.vue'
 
 @Component({
   head() {
@@ -34,28 +47,19 @@ import SeeMoreOnYoutube from '~/components/SeeMoreOnYoutube/SeeMoreOnYoutube.vue
       ]
     }
   },
-  async asyncData(context) {
-    const games: IGame[] | null = await Game.getLatestGames(context.app.$axios)
-
-    return { games }
-  },
-  components: { HomeIntro, GroupedGamesList, SeeMoreOnYoutube }
+  components: { HomeIntro, GroupedMatchesList }
 })
-export default class IndexPage extends Vue {}
-</script>
+export default class IndexPage extends Vue {
+  public matches: Match[] = []
 
-<style lang="scss" scoped>
-@import '~/assets/styles/_variables.scss';
+  public loading = true
 
-.see-more-on-youtube {
-  margin: 20px 0 5px 0;
+  async created() {
+    try {
+      this.matches = await MatchService.getLatestMatches(this.$axios, 24)
+    } catch (error) {}
 
-  @include media-breakpoint-up(md) {
-    margin-top: 30px;
-  }
-
-  @include media-breakpoint-up(xl) {
-    margin: 55px 0 25px 0;
+    this.loading = false
   }
 }
-</style>
+</script>

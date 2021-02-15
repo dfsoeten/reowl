@@ -7,7 +7,6 @@
   "links": {
     "home": "Accueil",
     "backToHome": "Retour à l’accueil",
-    "seeMoreOnYoutube": "Voir les matchs<br> plus anciens sur Youtube",
     "legalNotices": "Mentions légales"
   },
   "homeIntro": {
@@ -15,12 +14,13 @@
     "spoilerFree": "sans spoiler",
     "spoilerFreeHelp": "La durée de la vidéo peut donner des indications sur le déroulement d'un match. Pour cette raison, elle n’est jamais affichée sur Reowl."
   },
-  "game": {
-    "latestGames": "Derniers matchs",
-    "theLatestGames": "Les derniers matchs",
-    "vs": "vs"
+  "match": {
+    "latestMatches": "Derniers matchs",
+    "theLatestMatches": "Les derniers matchs",
+    "vs": "vs",
+    "cast": "Cast"
   },
-  "groupedGames": {
+  "groupedMatches": {
     "today": "Aujourd’hui",
     "yesterday": "Hier",
     "thisWeek": "Cette semaine",
@@ -45,7 +45,8 @@
   },
   "error": {
     "pageNotFound": "Page non trouvée",
-    "errorOccurred": "Une erreur s'est produite"
+    "errorOccurred": "Une erreur s'est produite",
+    "matchesNotFound": "Il semblerait que les derniers matchs soient introuvables. 😢<br /> N'hésites pas à me prévenir via Twitter :"
   },
   "miscellaneous": {
     "back": "Retour",
@@ -54,6 +55,7 @@
     "developpedWithLoveBy": "Développé avec ❤ par",
     "hide": "Masquer",
     "expand": "Développer",
-    "readMore": "En savoir plus"
+    "readMore": "En savoir plus",
+    "loading": "Chargement"
   }
 }
