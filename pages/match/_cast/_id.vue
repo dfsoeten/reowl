@@ -56,10 +56,24 @@
               </h1>
             </div>
             <Player
+              v-if="match.youtubeVideoChannelIsRelatedToThisCast"
               ref="player"
               :match="match"
               class="match-page__player mb-3 mb-lg-5"
             />
+            <div v-else class="mb-3 mb-lg-5">
+              <div class="match-page__video-is-coming">
+                <div class="match-page__video-is-coming__icon">
+                  <TimeIcon />
+                </div>
+                <div class="match-page__video-is-coming__title">
+                  {{ $t('matchPage.videoIsComingTitle') }}
+                </div>
+                <div class="match-page__video-is-coming__subtitle">
+                  {{ $t('matchPage.videoIsComingSubTitle') }}
+                </div>
+              </div>
+            </div>
             <TwitterCard />
           </div>
         </b-col>
@@ -87,6 +101,7 @@ import Player from '~/components/Player/Player.vue'
 import TwitterCard from '~/components/TwitterCard/TwitterCard.vue'
 import ArrowThinLeftIcon from '~/assets/images/icons/arrow-thin-left.svg?inline'
 import MinimizeIcon from '~/assets/images/icons/minimize.svg?inline'
+import TimeIcon from '~/assets/images/icons/time.svg?inline'
 
 @Component({
   validate: ({ params }) => {
@@ -133,6 +148,7 @@ import MinimizeIcon from '~/assets/images/icons/minimize.svg?inline'
     ArrowThinLeftIcon,
     MatchFeed,
     MinimizeIcon,
+    TimeIcon,
     Player,
     TwitterCard
   }
@@ -321,21 +337,77 @@ export default class MatchPage extends Vue {
 @import '~/assets/styles/_variables.scss';
 
 .match-page {
-  .player:not(.fullscreen) {
-    iframe.youtube-player,
-    .placeholder-player {
-      height: 250px;
+  .player:not(.fullscreen) iframe.youtube-player,
+  .player:not(.fullscreen) .placeholder-player,
+  &__video-is-coming {
+    height: 250px;
 
-      @include media-breakpoint-up(sm) {
-        height: 286px;
-      }
+    @include media-breakpoint-up(sm) {
+      height: 286px;
+    }
+
+    @include media-breakpoint-up(md) {
+      height: 388px;
+    }
+
+    @include media-breakpoint-up(xl) {
+      height: 534px;
+    }
+  }
+
+  &__video-is-coming {
+    align-items: center;
+    background-color: $gray-800;
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 25px 30px;
+
+    @include media-breakpoint-down(sm) {
+      height: auto;
+    }
+
+    > *:not(:last-child) {
+      margin-bottom: 15px;
+    }
+
+    &__icon {
+      align-items: center;
+      display: flex;
+      height: 48px;
+      justify-content: center;
+      min-width: 48px;
+      width: 48px;
 
       @include media-breakpoint-up(md) {
-        height: 388px;
+        height: 86px;
+        min-width: 86px;
+        width: 86px;
       }
 
-      @include media-breakpoint-up(xl) {
-        height: 534px;
+      > svg {
+        display: block;
+        min-width: 100%;
+        width: 100%;
+
+        path {
+          fill: #fff;
+        }
+      }
+    }
+
+    &__title,
+    &__subtitle {
+      line-height: 1.15em;
+      text-align: center;
+    }
+
+    &__title {
+      font-size: 26px;
+
+      @include media-breakpoint-up(md) {
+        font-size: 36px;
       }
     }
   }

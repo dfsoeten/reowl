@@ -7,6 +7,7 @@ export interface Match {
   team1: Team
   team2: Team
   youtubeVideoId?: string
+  youtubeVideoChannelIsRelatedToThisCast?: boolean
 }
 
 export interface GroupedMatches {

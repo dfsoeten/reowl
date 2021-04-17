@@ -98,6 +98,11 @@ export class MatchService {
       if (matchFromApi.youtubeVideoId) {
         match.youtubeVideoId = matchFromApi.youtubeVideoId
       }
+
+      if (matchFromApi.youtubeVideoChannelIsRelatedToThisCast) {
+        match.youtubeVideoChannelIsRelatedToThisCast =
+          matchFromApi.youtubeVideoChannelIsRelatedToThisCast
+      }
     }
 
     return match
