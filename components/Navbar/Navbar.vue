@@ -15,6 +15,9 @@
               class="navbar__logo"
             />
           </nuxt-link>
+          <div class="navbar__welcome-back">
+            Bon retour pour cette saison 4 ! 👋
+          </div>
         </b-col>
       </b-row>
     </b-container>
@@ -58,6 +61,14 @@ export default class Navbar extends Vue {}
       &:hover {
         transform: scale(1.05);
       }
+    }
+  }
+
+  &__welcome-back {
+    margin-top: 5px;
+
+    @include media-breakpoint-up(md) {
+      margin-top: 10px;
     }
   }
 }
