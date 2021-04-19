@@ -3,12 +3,12 @@
     <nuxt-link
       ref="matchCardInner"
       :to="{
-        name: 'match-cast-id',
-        params: { cast: `${matchData.cast}`, id: `${matchData.id}` }
+        name: 'match-id',
+        params: { id: `${matchData.id}` }
       }"
       :title="`${matchData.team1.name} ${$t('match.vs')} ${
         matchData.team2.name
-      } / ${$t('match.cast')} ${match.cast.toUpperCase()}`"
+      }`"
       class="match-card__inner"
     >
       <div
@@ -26,12 +26,6 @@
       <div class="match-card__vs">
         {{ $t('match.vs') }}
       </div>
-      <div class="match-card__cast-flag">
-        <img
-          :src="castSvgFlag"
-          :alt="`${$t('match.cast')} ${match.cast.toUpperCase()}`"
-        />
-      </div>
     </nuxt-link>
 
     <div class="match-card__footer">
@@ -44,7 +38,6 @@
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 import { formatDistanceToNow } from 'date-fns'
 import { fr } from 'date-fns/locale'
-import { getCastSvgFlag } from '~/utils/cast'
 import { Match } from '~/types/match'
 
 @Component
@@ -56,10 +49,6 @@ export default class MatchCard extends Vue {
 
   public $refs!: {
     matchCardInner: any
-  }
-
-  private get castSvgFlag() {
-    return getCastSvgFlag(this.match.cast)
   }
 
   private get humanizedDate() {
@@ -127,20 +116,6 @@ export default class MatchCard extends Vue {
     position: absolute;
     top: 50%;
     transform: translate(-50%, -50%);
-  }
-
-  &__cast-flag {
-    background-color: darken($gray-900, 10%);
-    border-radius: 10px 0 0 0;
-    bottom: 0;
-    right: 0;
-    padding: 7px 12px 10px 10px;
-    position: absolute;
-
-    > img {
-      height: 24px;
-      width: 24px;
-    }
   }
 
   &__footer {

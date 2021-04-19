@@ -20,16 +20,15 @@
     "vs": "vs",
     "cast": "Cast"
   },
-  "matchPage": {
-    "videoIsComingTitle": "La vidéo arrive bientôt...",
-    "videoIsComingSubTitle": "Les équipe de l'OWL ne devraient pas tarder à mettre en ligne le replay du match."
-  },
   "groupedMatches": {
     "today": "Aujourd’hui",
     "yesterday": "Hier",
     "thisWeek": "Cette semaine",
     "thisMonth": "Ce mois-ci",
     "old": "Il y a plus d’un mois"
+  },
+  "cast": {
+    "availableSoon": "Bientôt disponible"
   },
   "player": {
     "backToStart": "Retour début",
