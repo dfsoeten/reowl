@@ -2,7 +2,7 @@ import settings from './settings.json'
 import frLocales from './locales/fr.json'
 
 export default {
-  ssr: true,
+  target: "static",
   /*
    ** Headers of the page
    */
