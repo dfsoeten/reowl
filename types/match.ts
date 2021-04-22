@@ -1,13 +1,12 @@
 import { Team } from '~/types/team'
+import { YoutubeVideo } from '~/types/youtube-video'
 
 export interface Match {
   id: string
   publishedAt: Date
-  cast: string
   team1: Team
   team2: Team
-  youtubeVideoId?: string
-  youtubeVideoChannelIsRelatedToThisCast?: boolean
+  youtubeVideosByCast?: YoutubeVideo[]
 }
 
 export interface GroupedMatches {
