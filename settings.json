@@ -1,6 +1,6 @@
 {
   "websiteUrl": "https://www.reowl.fr",
-  "apiUrl": "https://reowl-api-27e0cxrv6-kevinpainchaud.vercel.app",
+  "apiUrl": "https://reowl-api.vercel.app",
   "googleAnalytics": { "id": "UA-163933218-1" },
   "localStoragePrefix": "reowl"
 }
