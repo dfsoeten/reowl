@@ -18,7 +18,7 @@
       <div v-show="loading" class="placeholder-player"></div>
       <youtube
         ref="youtube"
-        :video-id="match.youtubeVideoId"
+        :video-id="youtubeVideo.id"
         :player-vars="playerVars"
         class="youtube-player"
         @ready="handleYoutubePlayerReady"
@@ -58,7 +58,7 @@ import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 import canAutoPlay from 'can-autoplay'
 import screenfull from 'screenfull'
 import { isTouchScreen } from '~/utils/touchscreen'
-import { Match } from '~/types/match'
+import { YoutubeVideo } from '~/types/youtube-video'
 import PlayerControls from '~/components/PlayerControls/PlayerControls.vue'
 
 @Component({
@@ -66,9 +66,9 @@ import PlayerControls from '~/components/PlayerControls/PlayerControls.vue'
     PlayerControls
   }
 })
-export default class MatchPage extends Vue {
+export default class Player extends Vue {
   @Prop({ type: Object, required: true })
-  private match!: Match
+  private youtubeVideo!: YoutubeVideo
 
   public $refs!: {
     player: any
@@ -114,7 +114,7 @@ export default class MatchPage extends Vue {
     // Set interval for the current time indicator
     if (typeof window !== 'undefined') {
       this.currentTimeInterval = window.setInterval(async () => {
-        this.currentTime = await this.youtubePlayer.getCurrentTime()
+        this.currentTime = (await this.youtubePlayer.getCurrentTime()) || 0
       }, 100)
     }
 
@@ -156,6 +156,12 @@ export default class MatchPage extends Vue {
 
     // Get available playback rates (speed)
     this.availablePlaybackRates = await this.youtubePlayer.getAvailablePlaybackRates()
+  }
+
+  @Watch('youtubeVideo')
+  private handleYoutubeVideoChange() {
+    // Autoplay video
+    setTimeout(this.playVideo)
   }
 
   private async toggleVideo() {
