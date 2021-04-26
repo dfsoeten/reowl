@@ -4,9 +4,11 @@
       <b-row>
         <b-col md="6" class="mb-2 mb-md-0 text-center text-md-left">
           <nuxt-link
-            :to="{
-              name: 'legal-notices'
-            }"
+            :to="
+              localePath({
+                name: 'legal-notices'
+              })
+            "
           >
             {{ $t('links.legalNotices') }}
           </nuxt-link>

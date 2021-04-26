@@ -4,9 +4,11 @@
       <b-row class="text-center">
         <b-col>
           <nuxt-link
-            :to="{
-              name: 'index'
-            }"
+            :to="
+              localePath({
+                name: 'index'
+              })
+            "
           >
             <img
               src="~/assets/images/logos/reowl-white.svg"
@@ -18,6 +20,15 @@
           <div class="navbar__welcome-back">
             Bon retour pour cette saison 4 ! 👋
           </div>
+          <div class="navbar__lang-switcher">
+            <nuxt-link
+              v-for="locale in availableLocales"
+              :key="locale.code"
+              :to="switchLocalePath(locale.code)"
+            >
+              {{ locale.name }}
+            </nuxt-link>
+          </div>
         </b-col>
       </b-row>
     </b-container>
@@ -28,7 +39,13 @@
 import { Vue, Component } from 'vue-property-decorator'
 
 @Component
-export default class Navbar extends Vue {}
+export default class Navbar extends Vue {
+  private get availableLocales() {
+    return (this.$i18n.locales as { code: string; name: string }[]).filter(
+      (locale) => locale.code !== this.$i18n.locale
+    )
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -70,6 +87,15 @@ export default class Navbar extends Vue {}
     @include media-breakpoint-up(md) {
       margin-top: 10px;
     }
+  }
+
+  &__lang-switcher {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
   }
 }
 </style>

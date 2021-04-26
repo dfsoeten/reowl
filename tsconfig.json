@@ -15,7 +15,7 @@
       "~/*": ["./*"],
       "@/*": ["./*"]
     },
-    "types": ["@types/node", "@nuxt/types", "@types/youtube"],
+    "types": ["@types/node", "@nuxt/types", "nuxt-i18n", "@types/youtube"],
     "resolveJsonModule": true
   },
   "exclude": ["node_modules", ".nuxt", "dist"]

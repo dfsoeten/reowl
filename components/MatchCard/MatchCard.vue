@@ -2,10 +2,12 @@
   <div v-if="match" class="match-card">
     <nuxt-link
       ref="matchCardInner"
-      :to="{
-        name: 'match-id',
-        params: { id: `${matchData.id}` }
-      }"
+      :to="
+        localePath({
+          name: 'match-id',
+          params: { id: `${matchData.id}` }
+        })
+      "
       :title="`${matchData.team1.name} ${$t('match.vs')} ${
         matchData.team2.name
       }`"

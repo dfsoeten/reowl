@@ -1,7 +1,7 @@
 {
   "global": {
     "websiteName": "Reowl",
-    "description": "Replays des matchs Overwatch League sans spoiler et en français",
+    "description": "Replays des matchs Overwatch League sans spoiler",
     "shortDescription": "Replays des matchs Overwatch League"
   },
   "links": {
@@ -10,7 +10,7 @@
     "legalNotices": "Mentions légales"
   },
   "homeIntro": {
-    "description": "Replays des matchs Overwatch League [SPOILER-FREE] et en français",
+    "description": "Replays des matchs<br />Overwatch League [SPOILER-FREE]",
     "spoilerFree": "sans spoiler",
     "spoilerFreeHelp": "La durée de la vidéo peut donner des indications sur le déroulement d'un match. Pour cette raison, elle n’est jamais affichée sur Reowl."
   },

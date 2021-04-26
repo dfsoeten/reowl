@@ -56,11 +56,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [
-    '~/plugins/i18n.js',
-    '~/plugins/youtube.js',
-    '~/plugins/focus-visible.js'
-  ],
+  plugins: ['~/plugins/youtube.js', '~/plugins/focus-visible.js'],
   /*
    ** Nuxt.js dev-modules
    */
@@ -83,7 +79,8 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     // Doc: https://github.com/nuxt-community/svg-module
-    '@nuxtjs/svg'
+    '@nuxtjs/svg',
+    'nuxt-i18n'
   ],
   /*
    ** Axios module configuration
@@ -115,5 +112,25 @@ export default {
     bvCSS: false,
     icons: false,
     componentPlugins: ['ButtonPlugin', 'LayoutPlugin']
+  },
+  i18n: {
+    locales: [
+      {
+        code: 'en',
+        name: 'English'
+      },
+      {
+        code: 'fr',
+        name: 'Français'
+      }
+    ],
+    defaultLocale: 'en',
+    vueI18n: {
+      fallbackLocale: 'en',
+      messages: {
+        fr: require('./locales/fr.json'),
+        en: require('./locales/en.json')
+      }
+    }
   }
 }

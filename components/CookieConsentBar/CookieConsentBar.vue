@@ -8,10 +8,12 @@
               <span>
                 {{ $t('cookieConsent.description') }}
                 <nuxt-link
-                  :to="{
-                    name: 'legal-notices',
-                    hash: '#cookies'
-                  }"
+                  :to="
+                    localePath({
+                      name: 'legal-notices',
+                      hash: '#cookies'
+                    })
+                  "
                 >
                   {{ $t('miscellaneous.readMore') }}
                 </nuxt-link>
