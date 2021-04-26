@@ -4,7 +4,11 @@
       "src": "nuxt.config.js",
       "use": "@nuxtjs/vercel-builder",
       "config": {
-        "serverFiles": ["./settings.json", "./locales/fr.json"]
+        "serverFiles": [
+          "./settings.json",
+          "./locales/en.json",
+          "./locales/fr.json"
+        ]
       }
     }
   ]
