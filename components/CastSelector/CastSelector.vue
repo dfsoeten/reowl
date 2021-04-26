@@ -28,7 +28,7 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { Cast } from '~/types/cast'
-import { getCastSvgFlag } from '~/utils/cast'
+import { getCastSvgFlag } from '~/utils/flag'
 
 @Component
 export default class CastSelector extends Vue {
