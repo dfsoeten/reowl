@@ -20,8 +20,10 @@
             >
               <img
                 :src="getLocaleSvgFlag(locale.code)"
-                :alt="`Drapeau langue : ${locale.name}`"
-                :title="`Changer de langue : ${locale.name}`"
+                :alt="`${$t('miscellaneous.localeFlag')} ${locale.name}`"
+                :title="`${$t('miscellaneous.changeLocale', locale.code)} ${
+                  locale.name
+                }`"
               />
             </nuxt-link>
           </div>
@@ -43,6 +45,10 @@ import { getLocaleSvgFlag } from '~/utils/flag'
 
 @Component
 export default class Footer extends Vue {
+  private created() {
+    console.log(this.$t('miscellaneous.changeLocale', 'en'))
+  }
+
   private get availableLocales() {
     return (this.$i18n.locales as { code: string; name: string }[]).filter(
       (locale) => locale.code !== this.$i18n.locale

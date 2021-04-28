@@ -31,7 +31,7 @@
     </nuxt-link>
 
     <div class="match-card__footer">
-      {{ $t('miscellaneous.thereIs') }} {{ humanizedDate }}
+      {{ humanizedDate }}
     </div>
   </div>
 </template>
@@ -39,7 +39,7 @@
 <script lang="ts">
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 import { formatDistanceToNow } from 'date-fns'
-import { fr } from 'date-fns/locale'
+import { enUS, fr } from 'date-fns/locale'
 import { Match } from '~/types/match'
 
 @Component
@@ -54,7 +54,21 @@ export default class MatchCard extends Vue {
   }
 
   private get humanizedDate() {
-    return formatDistanceToNow(this.match.publishedAt, { locale: fr })
+    let humanizedDate = ''
+
+    if (this.$i18n.locale === 'fr') {
+      humanizedDate += `${this.$t('miscellaneous.datePrefix')} `
+    }
+
+    humanizedDate += formatDistanceToNow(this.match.publishedAt, {
+      locale: this.$i18n.locale === 'fr' ? fr : enUS
+    })
+
+    if (this.$i18n.locale === 'en') {
+      humanizedDate += ` ${this.$t('miscellaneous.dateSuffix')}`
+    }
+
+    return humanizedDate
   }
 
   @Watch('match', { immediate: true })

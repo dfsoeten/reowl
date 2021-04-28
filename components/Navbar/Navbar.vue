@@ -18,7 +18,7 @@
             />
           </nuxt-link>
           <div class="navbar__welcome-back">
-            Bon retour pour cette saison 4 ! 👋
+            {{ $t('navbar.welcomeBack') }}
           </div>
         </b-col>
       </b-row>

@@ -9,9 +9,11 @@
           <div v-if="match" class="match-page__main">
             <div class="match-page__header">
               <b-button
-                :to="{
-                  name: 'index'
-                }"
+                :to="
+                  localePath({
+                    name: 'index'
+                  })
+                "
                 pill
                 variant="outline-light"
                 class="btn--icon"
@@ -171,10 +173,12 @@ export default class MatchPage extends Vue {
       this.restoreSidebarVisibility()
     }
 
-    // Select FR cast as default if available
+    // Select locale related cast as default if available
     this.currentCast =
       this.casts?.find(
-        (cast) => cast.slug === 'fr-fr' && cast.available === true
+        (cast) =>
+          cast.slug === (this.$i18n.locale === 'fr' ? 'fr-fr' : 'en-us') &&
+          cast.available === true
       ) ??
       this.casts?.find((cast) => cast.slug === 'en-us') ??
       null

@@ -67,7 +67,7 @@ export default class HomeIntro extends Vue {
     @include media-breakpoint-up(xl) {
       font-size: 63px;
       max-width: 1280px;
-      padding: 100px 0;
+      padding: 90px 0;
     }
 
     > button {
