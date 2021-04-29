@@ -12,7 +12,11 @@
           >
             <img
               src="~/assets/images/logos/reowl-white.svg"
-              :title="$route.name !== 'index' ? $t('links.backToHome') : ''"
+              :title="
+                $route.name !== `index___${$i18n.locale}`
+                  ? $t('links.backToHome')
+                  : ''
+              "
               :alt="`${$t('miscellaneous.logo')} ${$t('global.websiteName')}`"
               class="navbar__logo"
             />

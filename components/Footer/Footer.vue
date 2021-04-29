@@ -45,10 +45,6 @@ import { getLocaleSvgFlag } from '~/utils/flag'
 
 @Component
 export default class Footer extends Vue {
-  private created() {
-    console.log(this.$t('miscellaneous.changeLocale', 'en'))
-  }
-
   private get availableLocales() {
     return (this.$i18n.locales as { code: string; name: string }[]).filter(
       (locale) => locale.code !== this.$i18n.locale
