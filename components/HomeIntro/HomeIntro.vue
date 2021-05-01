@@ -1,7 +1,8 @@
 <template>
   <div class="home-intro">
     <h1 class="home-intro__title">
-      {{ descriptionPart1 }}
+      <!-- eslint-disable-next-line vue/no-v-html -->
+      <span v-html="descriptionPart1"></span>
       <button>
         <span>{{ $t('homeIntro.spoilerFree') }}</span>
         <HelpIcon />
@@ -9,7 +10,8 @@
           {{ $t('homeIntro.spoilerFreeHelp') }}
         </div>
       </button>
-      {{ descriptionPart2 }}
+      <!-- eslint-disable-next-line vue/no-v-html -->
+      <span v-html="descriptionPart2"></span>
     </h1>
     <div class="home-intro__alerts">
       <div class="home-intro__alert home-intro__alert--no-hover">
@@ -65,7 +67,7 @@ export default class HomeIntro extends Vue {
     @include media-breakpoint-up(xl) {
       font-size: 63px;
       max-width: 1280px;
-      padding: 145px 0;
+      padding: 90px 0;
     }
 
     > button {

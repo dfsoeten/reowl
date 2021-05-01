@@ -1,5 +1,5 @@
 {
-  "websiteUrl": "https://www.reowl.fr",
+  "websiteUrl": "https://www.reowl.app",
   "apiUrl": "https://reowl-api.vercel.app",
   "googleAnalytics": { "id": "UA-163933218-1" },
   "localStoragePrefix": "reowl"

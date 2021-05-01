@@ -11,7 +11,7 @@
               {{ $t('error.errorOccurred') }}
             </template>
           </h1>
-          <nuxt-link to="/">
+          <nuxt-link :to="localePath('/')">
             {{ $t('links.backToHome') }}
           </nuxt-link>
         </b-col>

@@ -28,7 +28,7 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { Cast } from '~/types/cast'
-import { getCastSvgFlag } from '~/utils/cast'
+import { getCastSvgFlag } from '~/utils/flag'
 
 @Component
 export default class CastSelector extends Vue {
@@ -39,15 +39,17 @@ export default class CastSelector extends Vue {
   private activeCastSlug!: string
 
   /**
-   * Set FR cast at first position
+   * Set locale related cast at first position
    */
   private get reorderedCasts() {
     const reorderedCasts = JSON.parse(JSON.stringify(this.casts))
-    const frCast = this.casts.find((cast) => cast.slug === 'fr-fr')
+    const localeRelatedCast = this.casts.find(
+      (cast) => cast.slug === (this.$i18n.locale === 'fr' ? 'fr-fr' : 'en-us')
+    )
 
-    if (frCast) {
-      reorderedCasts.splice(this.casts.indexOf(frCast), 1)
-      reorderedCasts.unshift(frCast)
+    if (localeRelatedCast) {
+      reorderedCasts.splice(this.casts.indexOf(localeRelatedCast), 1)
+      reorderedCasts.unshift(localeRelatedCast)
     }
 
     return reorderedCasts

@@ -1,7 +1,7 @@
 {
   "global": {
     "websiteName": "Reowl",
-    "description": "Replays des matchs Overwatch League sans spoiler et en français",
+    "description": "Replays des matchs Overwatch League sans spoiler",
     "shortDescription": "Replays des matchs Overwatch League"
   },
   "links": {
@@ -9,14 +9,16 @@
     "backToHome": "Retour à l’accueil",
     "legalNotices": "Mentions légales"
   },
+  "navbar": {
+    "welcomeBack": "Bon retour pour cette saison 4 ! 👋"
+  },
   "homeIntro": {
-    "description": "Replays des matchs Overwatch League [SPOILER-FREE] et en français",
+    "description": "Replays des matchs<br />Overwatch League [SPOILER-FREE]",
     "spoilerFree": "sans spoiler",
     "spoilerFreeHelp": "La durée de la vidéo peut donner des indications sur le déroulement d'un match. Pour cette raison, elle n’est jamais affichée sur Reowl."
   },
   "match": {
     "latestMatches": "Derniers matchs",
-    "theLatestMatches": "Les derniers matchs",
     "vs": "vs",
     "cast": "Cast"
   },
@@ -53,12 +55,14 @@
   },
   "miscellaneous": {
     "back": "Retour",
-    "thereIs": "Il y a",
     "logo": "Logo",
     "developpedWithLoveBy": "Développé avec ❤ par",
     "hide": "Masquer",
     "expand": "Développer",
     "readMore": "En savoir plus",
-    "loading": "Chargement"
+    "loading": "Chargement",
+    "localeFlag": "Drapeau langue :",
+    "changeLocale": "Changer de langue :",
+    "datePrefix": "Il y a"
   }
 }

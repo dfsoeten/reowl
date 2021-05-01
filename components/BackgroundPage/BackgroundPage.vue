@@ -69,7 +69,7 @@ export default class BackgroundPage extends Vue {
       window?.matchMedia('(min-width: 992px)').matches ?? false
 
     const mustBeShow: boolean =
-      this.$route.name === 'index' && screenIsLargeEnough
+      this.$route.name === `index___${this.$i18n.locale}` && screenIsLargeEnough
 
     // Show a transition on image to video change
     if (mustBeShow && mustBeShow !== this.showVideo) {
@@ -91,7 +91,7 @@ export default class BackgroundPage extends Vue {
    */
   @Watch('$route')
   private toggleDarkMode(): void {
-    this.darkMode = this.$route.name !== 'index'
+    this.darkMode = this.$route.name !== `index___${this.$i18n.locale}`
   }
 }
 </script>

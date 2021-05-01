@@ -4,19 +4,25 @@
       <b-row class="text-center">
         <b-col>
           <nuxt-link
-            :to="{
-              name: 'index'
-            }"
+            :to="
+              localePath({
+                name: 'index'
+              })
+            "
           >
             <img
               src="~/assets/images/logos/reowl-white.svg"
-              :title="$route.name !== 'index' ? $t('links.backToHome') : ''"
+              :title="
+                $route.name !== `index___${$i18n.locale}`
+                  ? $t('links.backToHome')
+                  : ''
+              "
               :alt="`${$t('miscellaneous.logo')} ${$t('global.websiteName')}`"
               class="navbar__logo"
             />
           </nuxt-link>
           <div class="navbar__welcome-back">
-            Bon retour pour cette saison 4 ! 👋
+            {{ $t('navbar.welcomeBack') }}
           </div>
         </b-col>
       </b-row>

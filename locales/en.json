@@ -1,0 +1,68 @@
+{
+  "global": {
+    "websiteName": "Reowl",
+    "description": "Overwatch League spoiler-free VODs",
+    "shortDescription": "Overwatch League spoiler-free VODs"
+  },
+  "links": {
+    "home": "Home",
+    "backToHome": "Back to home",
+    "legalNotices": "Legal notices"
+  },
+  "navbar": {
+    "welcomeBack": "Welcome back for this 2021 season! 👋"
+  },
+  "homeIntro": {
+    "description": "Overwatch League<br />[SPOILER-FREE] VODs",
+    "spoilerFree": "spoiler-free",
+    "spoilerFreeHelp": "Video duration can give indication of progress of a match. For this reason, it's never shown on Reowl."
+  },
+  "match": {
+    "latestMatches": "Latest matches",
+    "vs": "vs",
+    "cast": "Cast"
+  },
+  "groupedMatches": {
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "thisWeek": "This week",
+    "thisMonth": "This month",
+    "old": "Over a month ago"
+  },
+  "cast": {
+    "availableSoon": "Coming soon"
+  },
+  "player": {
+    "backToStart": "Back start",
+    "playbackRate": "Playback rate",
+    "muteVolume": "Mute",
+    "unmuteVolume": "Unmute",
+    "enterFullscreen": "Full screen",
+    "exitFullscreen": "Exit full screen"
+  },
+  "twitterCard": {
+    "body": "Did you find <strong>a bug</strong>?<br />Do you have <strong>an idea</strong> to improve this website?<br />Or do you just want to follow future developments?",
+    "footer": "It's happening on Twitter:"
+  },
+  "cookieConsent": {
+    "description": "This website uses cookies for statistical purposes (counting visits).",
+    "allowCookies": "Allow cookies"
+  },
+  "error": {
+    "pageNotFound": "Page not found",
+    "errorOccurred": "An error has occurred",
+    "matchesNotFound": "It seems that the last matches are not found. 😢<br />Feel free to let me know via Twitter:"
+  },
+  "miscellaneous": {
+    "back": "Back",
+    "logo": "Logo",
+    "developpedWithLoveBy": "Develop with ❤ by",
+    "hide": "Hide",
+    "expand": "Expand",
+    "readMore": "Read more",
+    "loading": "Loading",
+    "localeFlag": "Flag language:",
+    "changeLocale": "Change language:",
+    "dateSuffix": "ago"
+  }
+}

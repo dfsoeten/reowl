@@ -13,12 +13,12 @@
           {{ $t('twitterCard.footer') }}
         </div>
         <b-button
-          href="https://twitter.com/reowl_fr"
+          href="https://twitter.com/reowl_app"
           target="_blank"
           pill
           variant="light"
         >
-          @reowl_fr
+          @reowl_app
         </b-button>
       </div>
     </div>
