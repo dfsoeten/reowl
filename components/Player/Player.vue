@@ -10,9 +10,10 @@
   >
     <div
       v-show="fullscreen"
-      class="player__overlay"
-      @mousemove="handleOverlayMousemove"
-      @click="handleOverlayClick"
+      class="player__fullscreen-overlay"
+      @mousemove="handleFullscreenOverlayMousemove"
+      @click="handleFullscreenOverlayClick"
+      @dblclick="toggleFullscreen"
     ></div>
     <div class="player__video-wrapper">
       <div v-show="loading" class="placeholder-player"></div>
@@ -25,11 +26,17 @@
         @playing="isPlaying = true"
         @paused="isPlaying = false"
       />
-      <div class="player__timer">
-        <span>
-          {{ currentTimeFormatted }}
-        </span>
-      </div>
+      <div
+        v-show="!fullscreen"
+        class="player__minimized-overlay"
+        @click="toggleVideo"
+        @dblclick="toggleFullscreen"
+      ></div>
+    </div>
+    <div class="player__timer">
+      <span>
+        {{ currentTimeFormatted }}
+      </span>
     </div>
     <PlayerControls
       v-show="!fullscreen || userIsActive"
@@ -250,9 +257,9 @@ export default class Player extends Vue {
   }
 
   /**
-   * Mouseover the overlay
+   * Mouseover the fullscreen overlay
    */
-  private handleOverlayMousemove(): void {
+  private handleFullscreenOverlayMousemove(): void {
     if (!isTouchScreen()) {
       if (this.userIsActiveTimeout) {
         clearTimeout(this.userIsActiveTimeout)
@@ -272,11 +279,11 @@ export default class Player extends Vue {
   }
 
   /**
-   * Click the overlay
+   * Click the fullscreen overlay
    */
-  private handleOverlayClick(): void {
+  private handleFullscreenOverlayClick(): void {
     if (isTouchScreen()) {
-      // User is active = show overlay + player controls
+      // User is active = show fullscreen overlay + player controls
       this.userIsActive = !this.userIsActive
     } else {
       // Pause/play video
@@ -308,16 +315,23 @@ export default class Player extends Vue {
   $self: &;
 
   &__video-wrapper {
-    margin-bottom: 25px;
-
     .placeholder-player {
       background-color: $gray-900;
     }
   }
 
+  &__minimized-overlay {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+
   &__timer {
     display: flex;
     justify-content: center;
+    margin-bottom: 25px;
 
     > span {
       background-color: #fff;
@@ -342,8 +356,14 @@ export default class Player extends Vue {
     }
   }
 
+  &:not(.fullscreen) {
+    #{$self}__video-wrapper {
+      position: relative;
+    }
+  }
+
   &.fullscreen {
-    #{$self}__overlay,
+    #{$self}__fullscreen-overlay,
     #{$self}__timer {
       opacity: 0;
       position: absolute;
@@ -351,7 +371,7 @@ export default class Player extends Vue {
       transition: opacity $transition-duration;
     }
 
-    #{$self}__overlay {
+    #{$self}__fullscreen-overlay {
       background-color: $gray-900;
       background: linear-gradient(
         0deg,
@@ -377,7 +397,7 @@ export default class Player extends Vue {
     }
 
     &.user-is-active {
-      #{$self}__overlay {
+      #{$self}__fullscreen-overlay {
         opacity: 0.8;
       }
 
