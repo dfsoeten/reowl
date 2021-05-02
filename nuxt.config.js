@@ -56,7 +56,11 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/youtube.js', '~/plugins/focus-visible.js'],
+  plugins: [
+    '~/plugins/favicon.js',
+    '~/plugins/youtube.js',
+    '~/plugins/focus-visible.js'
+  ],
   /*
    ** Nuxt.js dev-modules
    */
