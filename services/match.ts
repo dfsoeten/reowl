@@ -19,7 +19,7 @@ export class MatchService {
     let response
 
     try {
-      response = await axios.get(`${settings.apiUrl}/api/matches`, {
+      response = await axios.get(`${settings.apiUrl}/matches`, {
         params: {
           limit,
           exclude: exclude?.map((match) => match.id).join(',')
@@ -55,7 +55,7 @@ export class MatchService {
     let response
 
     try {
-      response = await axios.get(`${settings.apiUrl}/api/match/${id}`)
+      response = await axios.get(`${settings.apiUrl}/matches/${id}`)
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error)
