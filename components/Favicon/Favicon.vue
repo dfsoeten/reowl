@@ -37,6 +37,12 @@ export default class Favicon extends Vue {
           sizes: '96x96',
           href: `/${this.faviconBaseName}-96x96.png`,
           type: 'image/png'
+        },
+        {
+          rel: 'icon',
+          sizes: '128x128',
+          href: `/${this.faviconBaseName}-128x128.png`,
+          type: 'image/png'
         }
       ]
     }
