@@ -17,7 +17,7 @@ export default class Favicon extends Vue {
     return {
       link: [
         {
-          rel: 'icon',
+          rel: 'shortcut icon',
           type: 'image/x-icon',
           href: `/${this.faviconBaseName}.ico`
         },
