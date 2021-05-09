@@ -37,6 +37,25 @@ export default {
         sizes: '96x96',
         href: '/favicon-96.png',
         type: 'image/png'
+      },
+      {
+        rel: 'apple-touch-icon',
+        href: '/app-icon.png'
+      },
+      {
+        rel: 'apple-touch-icon',
+        sizes: '152x152',
+        href: '/app-icon-152x152.png'
+      },
+      {
+        rel: 'apple-touch-icon',
+        sizes: '167x167',
+        href: '/app-icon-167x167.png'
+      },
+      {
+        rel: 'apple-touch-icon',
+        sizes: '180x180',
+        href: '/app-icon-180x180.png'
       }
     ]
   },
