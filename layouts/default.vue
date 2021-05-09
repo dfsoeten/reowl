@@ -1,5 +1,6 @@
 <template>
   <div class="default-layout">
+    <Favicon />
     <BackgroundPage />
     <div class="default-layout__inner">
       <Navbar />
@@ -16,8 +17,11 @@ import BackgroundPage from '~/components/BackgroundPage/BackgroundPage.vue'
 import CookieConsentBar from '~/components/CookieConsentBar/CookieConsentBar.vue'
 import Footer from '~/components/Footer/Footer.vue'
 import Navbar from '~/components/Navbar/Navbar.vue'
+import Favicon from '~/components/Favicon/Favicon.vue'
 
-@Component({ components: { BackgroundPage, CookieConsentBar, Footer, Navbar } })
+@Component({
+  components: { BackgroundPage, CookieConsentBar, Footer, Navbar, Favicon }
+})
 export default class DefautlLayout extends Vue {}
 </script>
 
