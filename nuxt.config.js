@@ -20,24 +20,6 @@ export default {
       }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      {
-        rel: 'icon',
-        href: '/favicon.png',
-        type: 'image/png'
-      },
-      {
-        rel: 'icon',
-        sizes: '64x64',
-        href: '/favicon-64.png',
-        type: 'image/png'
-      },
-      {
-        rel: 'icon',
-        sizes: '96x96',
-        href: '/favicon-96.png',
-        type: 'image/png'
-      },
       {
         rel: 'apple-touch-icon',
         href: '/app-icon.png'
@@ -75,11 +57,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [
-    '~/plugins/favicon.js',
-    '~/plugins/youtube.js',
-    '~/plugins/focus-visible.js'
-  ],
+  plugins: ['~/plugins/youtube.js', '~/plugins/focus-visible.js'],
   /*
    ** Nuxt.js dev-modules
    */
