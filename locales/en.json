@@ -1,8 +1,8 @@
 {
   "global": {
     "websiteName": "Reowl",
-    "description": "Overwatch League spoiler-free VODs",
-    "shortDescription": "Overwatch League spoiler-free VODs"
+    "description": "Overwatch League spoiler-free match VODs",
+    "shortDescription": "Overwatch League spoiler-free match VODs"
   },
   "links": {
     "home": "Home",
@@ -13,14 +13,14 @@
     "welcomeBack": "Welcome back for this 2021 season! 👋"
   },
   "homeIntro": {
-    "description": "Overwatch League<br />[SPOILER-FREE] VODs",
+    "description": "Overwatch League<br />[SPOILER-FREE] match VODs",
     "spoilerFree": "spoiler-free",
     "spoilerFreeHelp": "Video duration can give indication of progress of a match. For this reason, it's never shown on Reowl."
   },
   "match": {
     "latestMatches": "Latest matches",
     "vs": "vs",
-    "cast": "Cast"
+    "cast": "Broadcast"
   },
   "groupedMatches": {
     "today": "Today",
