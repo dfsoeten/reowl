@@ -9,15 +9,21 @@
           }"
           @click="cast.available ? $emit('castSelected', cast) : null"
         >
+          <img
+            v-if="$i18n.locale === 'en'"
+            :src="getSvgFlag(cast.slug)"
+            :alt="`${$t('match.cast')} ${cast.slug.toUpperCase()}`"
+          />
           <span>
             {{ $t('match.cast') }}
           </span>
           <img
+            v-if="$i18n.locale !== 'en'"
             :src="getSvgFlag(cast.slug)"
             :alt="`${$t('match.cast')} ${cast.slug.toUpperCase()}`"
           />
-          <span class="cast-selector__available-soon">
-            {{ !cast.available ? `(${$t('cast.availableSoon')})` : null }}
+          <span v-if="!cast.available" class="cast-selector__available-soon">
+            ({{ $t('cast.availableSoon') }})
           </span>
         </span>
       </li>
@@ -96,7 +102,7 @@ export default class CastSelector extends Vue {
         padding: 5px 10px;
 
         > *:not(:last-child) {
-          margin-right: 5px;
+          margin-right: 8px;
         }
 
         img {
@@ -106,6 +112,8 @@ export default class CastSelector extends Vue {
 
         #{$self}__available-soon {
           font-size: 12px;
+          position: relative;
+          top: 1px;
         }
 
         &:not(.disabled) {

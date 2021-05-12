@@ -21,9 +21,9 @@
               class="navbar__logo"
             />
           </nuxt-link>
-          <div class="navbar__welcome-back">
+          <!-- <div class="navbar__welcome-back">
             {{ $t('navbar.welcomeBack') }}
-          </div>
+          </div> -->
         </b-col>
       </b-row>
     </b-container>
