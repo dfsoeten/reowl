@@ -1,10 +1,10 @@
 # Reowl
 
-Watch Overwatch League replays spoiler-free, in the 🇫🇷 language
+Overwatch League spoiler-free match VODs
 
 [https://www.reowl.app](https://www.reowl.app)
 
-![Website screenshot](/ressources/website-screenshot.jpg)
+![Website screenshot](website-screenshot.jpg)
 
 ## Environment
 
