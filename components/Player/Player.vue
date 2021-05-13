@@ -32,6 +32,22 @@
         @click="toggleVideo"
         @dblclick="toggleFullscreen"
       ></div>
+      <div
+        :class="{ active: movingBackward }"
+        class="player__move player__move--backward"
+      >
+        <div>
+          <ArrowRightIcon />
+        </div>
+      </div>
+      <div
+        :class="{ active: movingForward }"
+        class="player__move player__move--forward"
+      >
+        <div>
+          <ArrowRightIcon />
+        </div>
+      </div>
     </div>
     <div class="player__timer">
       <span>
@@ -67,10 +83,12 @@ import screenfull from 'screenfull'
 import { isTouchScreen } from '~/utils/touchscreen'
 import { YoutubeVideo } from '~/types/youtube-video'
 import PlayerControls from '~/components/PlayerControls/PlayerControls.vue'
+import ArrowRightIcon from '~/assets/images/icons/arrow-right.svg?inline'
 
 @Component({
   components: {
-    PlayerControls
+    PlayerControls,
+    ArrowRightIcon
   }
 })
 export default class Player extends Vue {
@@ -93,15 +111,14 @@ export default class Player extends Vue {
   private volume: number = 100
   private currentTime: number = 0
   private currentTimeInterval!: number
+  private movingBackward = false
+  private movingForward = false
+  private movingTimer!: number
   // eslint-disable-next-line no-undef
   private playerVars: YT.PlayerVars = {
     controls: 0,
     playsinline: 1,
     rel: 0
-  }
-
-  public async getPlayerState() {
-    return await this.youtubePlayer.getPlayerState()
   }
 
   // eslint-disable-next-line no-undef
@@ -138,9 +155,9 @@ export default class Player extends Vue {
       screenfull.on('change', this.handleFullscreenChange)
     }
 
-    // Spacebar keyup
+    // Keyup
     if (typeof document !== 'undefined') {
-      document.addEventListener('keyup', this.handleSpacebarKeyup)
+      document.addEventListener('keyup', this.handleKeyup)
     }
   }
 
@@ -154,8 +171,12 @@ export default class Player extends Vue {
     }
 
     if (typeof document !== 'undefined') {
-      document.removeEventListener('keyup', this.handleSpacebarKeyup)
+      document.removeEventListener('keyup', this.handleKeyup)
     }
+  }
+
+  public async getPlayerState() {
+    return await this.youtubePlayer.getPlayerState()
   }
 
   private async handleYoutubePlayerReady(): Promise<void> {
@@ -197,6 +218,27 @@ export default class Player extends Vue {
 
   private async move(offset: number) {
     const currentTime = await this.youtubePlayer.getCurrentTime()
+
+    // Useful for arrow icon animation on the player
+    this.movingBackward = false
+    this.movingForward = false
+
+    if (this.movingTimer) {
+      clearTimeout(this.movingTimer)
+    }
+
+    window.setTimeout(() => {
+      if (offset < 0) {
+        this.movingBackward = true
+      } else if (offset > 0) {
+        this.movingForward = true
+      }
+
+      this.movingTimer = window.setTimeout(() => {
+        this.movingBackward = false
+        this.movingForward = false
+      }, 500)
+    }, 50)
 
     this.youtubePlayer.seekTo(currentTime + offset, true)
   }
@@ -241,9 +283,10 @@ export default class Player extends Vue {
   }
 
   /**
-   * Play/pause on spacebar keyup when fullscreen
+   * Handle key up
    */
-  private handleSpacebarKeyup(event: any): void {
+  private handleKeyup(event: any): void {
+    // Play/pause on spacebar key up when fullscreen
     if (
       screenfull.isEnabled &&
       screenfull.isFullscreen &&
@@ -253,6 +296,13 @@ export default class Player extends Vue {
         0
     ) {
       this.toggleVideo()
+    }
+
+    // Move forward/backward on arrow key up
+    if (event.keyCode === 37) {
+      this.move(-15)
+    } else if (event.keyCode === 39) {
+      this.move(15)
     }
   }
 
@@ -326,6 +376,45 @@ export default class Player extends Vue {
     position: absolute;
     top: 0;
     width: 100%;
+  }
+
+  &__move {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20%;
+
+    > div {
+      opacity: 0;
+
+      > svg {
+        display: block;
+        fill: #fff;
+        height: 100%;
+        min-width: 100%;
+        width: 100%;
+
+        > path {
+          filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
+        }
+      }
+    }
+
+    &--backward {
+      left: 15%;
+
+      svg {
+        transform: rotate(-180deg);
+      }
+    }
+
+    &--forward {
+      right: 15%;
+    }
+
+    &.active > div {
+      animation: pulse 0.5s;
+    }
   }
 
   &__timer {
